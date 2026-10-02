@@ -1,5 +1,76 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320" role="img" aria-label="Glowing bridge from learning to experience"><defs><style>.n{animation:p 2.400s ease-in-out infinite}@keyframes p{50%{opacity:.35}}@media(prefers-reduced-motion:reduce){.n{animation:none}}text{font:600 14px Arial,sans-serif;fill:#fff}</style></defs>
-<path d="M0 255Q150 215 300 255T600 245V320H0Z" fill="#1B1050"/><path d="M60 250Q300 -30 540 250" fill="none" stroke="#6D3CFF" stroke-width="5"/>
-<path d="M120 189V250M160 150V250M200 135V250M240 119V250M300 110V250M360 119V250M400 135V250M440 150V250M480 189V250" stroke="#6D3CFF" stroke-opacity=".5"/>
-<path d="M0 252H600V272H0Z" fill="#0A1626" stroke="#6D3CFF" stroke-opacity=".7"/><path d="M0 262H600" stroke="#6D3CFF" stroke-dasharray="14 12" stroke-opacity=".8"/>
-<g class="n" fill="#39FF14"><circle cx="300" cy="110" r="6"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" role="img" aria-label="A glowing green bridge rising over a road toward a bright tower of light">
+  <defs>
+    <linearGradient id="road" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#4b3bff" stop-opacity=".0"/>
+      <stop offset=".35" stop-color="#4b3bff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#7cf56a" stop-opacity=".85"/>
+    </linearGradient>
+    <linearGradient id="arc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#39ff14" stop-opacity="0"/>
+      <stop offset=".25" stop-color="#39ff14" stop-opacity=".95"/>
+      <stop offset=".55" stop-color="#b8ff9a"/>
+      <stop offset=".85" stop-color="#39ff14" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#39ff14" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="arc2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6d3cff" stop-opacity="0"/>
+      <stop offset=".3" stop-color="#8f7bff" stop-opacity=".85"/>
+      <stop offset=".6" stop-color="#7aa8ff" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#6d3cff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="hang" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8dffa0" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#6d6bff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="tower" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e6ffd9"/>
+      <stop offset="1" stop-color="#39ff14" stop-opacity=".25"/>
+    </linearGradient>
+    <radialGradient id="halo" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#8bff6a" stop-opacity=".75"/>
+      <stop offset=".45" stop-color="#39ff14" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#39ff14" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="18"/></filter>
+  </defs>
+
+  <!-- light halo behind the tower -->
+  <ellipse cx="640" cy="250" rx="300" ry="170" fill="url(#halo)"/>
+
+  <!-- road in perspective -->
+  <path d="M640 300 L1010 600 L190 600 Z" fill="url(#road)" opacity=".75"/>
+  <path d="M640 300 L1010 600" stroke="#9dffa0" stroke-width="3" opacity=".6" filter="url(#glow)"/>
+  <path d="M640 300 L190 600" stroke="#9dffa0" stroke-width="3" opacity=".6" filter="url(#glow)"/>
+  <g stroke="#c6ffb5" stroke-linecap="round" opacity=".8">
+    <path d="M640 318 V334" stroke-width="3"/>
+    <path d="M640 360 V386" stroke-width="5"/>
+    <path d="M640 424 V462" stroke-width="7"/>
+    <path d="M640 512 V566" stroke-width="10"/>
+  </g>
+
+  <!-- vertical light streaks (bridge hangers) -->
+  <g stroke="#8dffa0" stroke-width="3" stroke-linecap="round" opacity=".85">
+    <path d="M330 300 V420"/><path d="M390 270 V410"/><path d="M450 245 V400"/><path d="M510 228 V392"/>
+    <path d="M570 216 V385"/><path d="M710 216 V385"/><path d="M770 228 V392"/><path d="M830 245 V400"/>
+    <path d="M890 270 V410"/><path d="M950 300 V420"/>
+  </g>
+  <g stroke="#9ab0ff" stroke-width="22" stroke-linecap="round" opacity=".16">
+    <path d="M360 330 V420"/><path d="M480 290 V400"/><path d="M800 290 V400"/><path d="M920 330 V420"/>
+  </g>
+
+  <!-- lower structural arc (violet-blue) -->
+  <path d="M120 470 C 330 330, 520 262, 640 262 C 760 262, 950 330, 1160 470" fill="none" stroke="url(#arc2)" stroke-width="12" stroke-linecap="round" filter="url(#glow)"/>
+
+  <!-- main green arc -->
+  <path d="M40 430 C 280 260, 500 176, 640 176 C 780 176, 1000 270, 1170 420" fill="none" stroke="url(#arc)" stroke-width="12" stroke-linecap="round" filter="url(#glow)"/>
+  <path d="M40 430 C 280 260, 500 176, 640 176 C 780 176, 1000 270, 1170 420" fill="none" stroke="#e6ffd9" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+
+  <!-- central tower of light -->
+  <rect x="612" y="120" width="56" height="150" rx="3" fill="url(#tower)" filter="url(#glow)"/>
+  <rect x="624" y="136" width="32" height="124" rx="2" fill="#f4ffee" opacity=".85"/>
+  <ellipse cx="640" cy="276" rx="150" ry="24" fill="#39ff14" opacity=".35" filter="url(#soft)"/>
+</svg>

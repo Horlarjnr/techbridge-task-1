@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320" role="img" aria-label="Bridge connecting Learning, Skills and Experience"><defs><style>.n{animation:p 2.400s ease-in-out infinite}@keyframes p{50%{opacity:.35}}@media(prefers-reduced-motion:reduce){.n{animation:none}}text{font:600 14px Arial,sans-serif;fill:#fff}</style></defs>
-<path d="M0 255Q150 215 300 255T600 245V320H0Z" fill="#0B2A1A"/><path d="M60 250Q300 -30 540 250" fill="none" stroke="#39FF14" stroke-width="5"/>
-<path d="M120 189V250M160 150V250M200 135V250M240 119V250M300 110V250M360 119V250M400 135V250M440 150V250M480 189V250" stroke="#39FF14" stroke-opacity=".5"/>
-<path d="M0 252H600V272H0Z" fill="#0A1626" stroke="#39FF14" stroke-opacity=".7"/><path d="M0 262H600" stroke="#39FF14" stroke-dasharray="14 12" stroke-opacity=".8"/>
-<g class="n" fill="#39FF14"><circle cx="132" cy="179" r="7"/><circle cx="300" cy="110" r="7"/><circle cx="468" cy="179" r="7"/></g><text x="132" y="160" text-anchor="middle">Learning</text><text x="300" y="91" text-anchor="middle">Skills</text><text x="468" y="160" text-anchor="middle">Experience</text></svg>
