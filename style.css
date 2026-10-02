@@ -1,0 +1,95 @@
+/* 1. RESET */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+img{display:block;max-width:100%;height:auto}
+ul{list-style:none}a{color:inherit;text-decoration:none}
+/* 2. VARIABLES */
+:root{--bg-primary:#020B18;--bg-secondary:#061426;--bg-card:#081A2D;--green:#39FF14;--green-dark:#22C55E;--purple:#4F20FF;--purple-light:#6D3CFF;--text-primary:#fff;--text-secondary:#CBD5E1;--text-muted:#94A3B8;--border:rgba(148,163,184,.16);--radius-sm:10px;--radius-md:18px;--radius-lg:28px;--radius-pill:999px;--container:1200px}
+/* 3. GLOBAL */
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg-primary);color:var(--text-secondary);line-height:1.6}
+.wrap{width:min(100% - 2rem,var(--container));margin-inline:auto}
+h1,h2,h3{color:var(--text-primary);line-height:1.15;overflow-wrap:break-word}
+h1{font-size:clamp(2.1rem,5.2vw,3.6rem)}h2{font-size:clamp(1.6rem,3.6vw,2.3rem)}
+section{padding:clamp(3rem,7vw,5rem) 0;border-top:1px solid var(--border)}
+.hl{color:var(--green)}
+.eyebrow{display:flex;align-items:center;gap:.6rem;color:var(--green);font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--green)}
+.lead{margin-top:1rem;max-width:52ch}
+:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,3rem);align-items:center}
+/* 4. BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:44px;padding:.65rem 1.4rem;border-radius:var(--radius-pill);font-weight:600;font-size:.9rem;border:1.5px solid var(--green);transition:transform .2s,box-shadow .2s,background .2s}
+.btn-primary{background:var(--green-dark);border-color:var(--green-dark);color:#03130A}
+.btn-primary:hover,.btn-primary:focus-visible{transform:translateY(-2px);box-shadow:0 0 22px rgba(57,255,20,.45)}
+.btn-secondary{color:#fff;background:transparent}
+.btn-secondary:hover,.btn-secondary:focus-visible{background:var(--green-dark);color:#03130A}
+.btns{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.8rem}
+/* 5. NAVBAR */
+.top{position:sticky;top:0;z-index:50;background:rgba(2,11,24,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:72px;position:relative}
+.logo img{width:170px}
+.links{display:flex;align-items:center;gap:2rem}
+.links a:not(.btn){color:#fff;font-size:.85rem;padding:.4rem 0;border-bottom:2px solid transparent;transition:border-color .2s}
+.links a.on,.links a:not(.btn):hover{border-color:var(--green)}
+.menu-checkbox{position:absolute;right:1rem;opacity:0;width:44px;height:44px}
+.menu-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;padding:10px;cursor:pointer}
+.menu-toggle span{display:block;height:2px;background:#fff;border-radius:2px;transition:transform .3s,opacity .3s}
+.menu-checkbox:focus-visible+.menu-toggle{outline:3px solid var(--green);border-radius:var(--radius-sm)}
+/* 6. HERO */
+.hero{border-top:0;background:radial-gradient(60% 80% at 80% 40%,rgba(57,255,20,.1),transparent)}
+.hero .eyebrow::before{display:none}.hero h1{margin-bottom:1.2rem}
+.hero-visual img{width:100%;animation:float 6s ease-in-out infinite}
+/* 7. ABOUT */
+.shot{position:relative;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 0 40px rgba(57,255,20,.15)}
+.shot figcaption{position:absolute;right:1rem;bottom:1rem;color:#fff;font-weight:700;line-height:1.3;border-bottom:3px solid var(--green);padding-bottom:.3rem;transform:rotate(-6deg)}
+.more{display:inline-block;margin-top:1.4rem;color:#fff;font-weight:600;font-size:.9rem}.more:hover{color:var(--green)}
+/* 8. PROGRAMS */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem}
+.card{position:relative;overflow:hidden;padding:1.75rem;border:1px solid var(--green-dark);border-radius:var(--radius-md);background:linear-gradient(135deg,var(--bg-card),rgba(34,197,94,.14));transition:transform .25s,box-shadow .25s}
+.card.p{border-color:var(--purple-light);background:linear-gradient(135deg,var(--bg-card),rgba(79,32,255,.22))}
+.card:hover{transform:translateY(-4px);box-shadow:0 0 28px rgba(57,255,20,.2)}.card.p:hover{box-shadow:0 0 28px rgba(109,60,255,.35)}
+.card::after{content:"";position:absolute;right:0;bottom:0;width:38%;height:45%;background:rgba(57,255,20,.14);clip-path:polygon(100% 0,100% 100%,0 100%)}
+.card.p::after{background:rgba(109,60,255,.3)}
+.card .num{position:absolute;top:1.2rem;right:1.4rem;font-size:1.5rem;font-weight:700;color:var(--green)}.card.p .num{color:var(--purple-light)}
+.card img{width:48px;margin-bottom:1rem;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);width:56px}
+.card p{margin:.6rem 0 1.2rem;max-width:38ch}.card a{position:relative;z-index:1;color:var(--green);font-weight:600;font-size:.9rem}.card.p a{color:#A895FF}
+/* 9. INTERNSHIP */
+.intern{background:linear-gradient(135deg,#150A5C,#1E1180 60%,#0B1450)}
+.ticks{margin:1.4rem 0}.ticks li{display:flex;align-items:center;gap:.7rem;margin:.5rem 0;color:#fff}
+.ticks li::before{content:"✓";flex:none;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--green-dark);color:#03130A;font-size:.75rem;font-weight:800}
+.note{font-size:.8rem;color:var(--text-muted)}
+.flow{margin-top:1rem;color:#fff;font-weight:700;line-height:1.3;border-bottom:3px solid var(--green);display:inline-block;padding-bottom:.3rem}
+/* 10. WHY */
+.why{display:grid;grid-template-columns:repeat(4,1fr);margin-top:2rem}
+.why article{padding:0 1.4rem;border-left:1px solid var(--border)}.why article:first-child{border-left:0;padding-left:0}
+.why img{width:44px;padding:9px;margin-bottom:.9rem;border-radius:var(--radius-sm);background:rgba(34,197,94,.15)}
+.why h3{font-size:1rem;margin-bottom:.3rem}.why p{font-size:.88rem}
+/* 11. CTA */
+.ctas{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.cta{position:relative;overflow:hidden;padding:2rem;border:1px solid rgba(34,197,94,.5);border-radius:var(--radius-md);background:linear-gradient(135deg,#06301F,#08201F)}
+.cta h2{font-size:1.4rem}.cta p{margin:.6rem 0 1.3rem;max-width:44ch}
+.cta .btn img{width:20px}
+/* 12. FOOTER */
+footer{border-top:1px solid var(--border);padding:3rem 0 1.5rem;background:var(--bg-secondary)}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.4fr;gap:2rem}
+footer h3{font-size:.85rem;margin-bottom:.8rem}footer li{margin:.4rem 0;font-size:.88rem}
+footer a:hover{color:var(--green)}.fl{display:flex;align-items:center;gap:.5rem}.fl img{width:18px}
+.fbar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--border);font-size:.8rem;color:var(--text-muted)}
+.fbar nav{display:flex;gap:1.2rem}
+/* 13. ANIMATIONS */
+@keyframes float{50%{transform:translateY(-10px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}}
+.hero-copy{animation:fadeUp .8s ease both}
+/* 14. RESPONSIVE */
+@media(max-width:1023px){.why{grid-template-columns:1fr 1fr;row-gap:2rem}.why article:nth-child(3){border-left:0;padding-left:0}.fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){
+.menu-toggle{display:flex;margin-left:auto}
+.links{position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:flex-start;gap:1rem;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-md);padding:0 1.25rem;max-height:0;overflow:hidden;opacity:0;visibility:hidden;transition:max-height .35s,opacity .3s,padding .3s,visibility .3s}
+#menu-toggle:checked~.links{max-height:420px;opacity:1;visibility:visible;padding:1.25rem}
+#menu-toggle:checked+.menu-toggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#menu-toggle:checked+.menu-toggle span:nth-child(2){opacity:0}
+#menu-toggle:checked+.menu-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.grid2,.cards,.ctas{grid-template-columns:1fr}}
+@media(max-width:600px){.why,.fgrid{grid-template-columns:1fr}.why article{border-left:0;padding:0}.btns .btn{flex:1 1 100%}.logo img{width:150px}.cta{padding:1.5rem}}
+/* 15. REDUCED MOTION */
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
