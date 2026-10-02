@@ -682,6 +682,21 @@ section {
     color: #06301F;
 }
 
+.hero {
+    border-top: 0;
+    overflow: hidden;
+    padding: 1rem 0 2rem;   /* top | left-right | bottom, was ~5rem top and bottom */
+    background: radial-gradient(55% 85% at 76% 55%, rgba(34, 197, 94, .09), transparent 70%), var(--bg-primary);
+}
+
+.hero-visual img {
+    width: 100%;
+    max-width: none;
+    margin-block: -3.5rem;  /* trims the empty dark space around the artwork */
+    animation: float 6s ease-in-out infinite;
+    /* ...keep the mask lines as they are */
+}
+
 .btn-white:hover,
 .btn-white:focus-visible {
     box-shadow: 0 0 20px rgba(255, 255, 255, .35);
