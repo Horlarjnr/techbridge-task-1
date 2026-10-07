@@ -682,21 +682,6 @@ section {
     color: #06301F;
 }
 
-.hero {
-    border-top: 0;
-    overflow: hidden;
-    padding: 1rem 0 2rem;   /* top | left-right | bottom, was ~5rem top and bottom */
-    background: radial-gradient(55% 85% at 76% 55%, rgba(34, 197, 94, .09), transparent 70%), var(--bg-primary);
-}
-
-.hero-visual img {
-    width: 100%;
-    max-width: none;
-    margin-block: -3.5rem;  /* trims the empty dark space around the artwork */
-    animation: float 6s ease-in-out infinite;
-    /* ...keep the mask lines as they are */
-}
-
 .btn-white:hover,
 .btn-white:focus-visible {
     box-shadow: 0 0 20px rgba(255, 255, 255, .35);
@@ -973,4 +958,517 @@ footer a:hover {
         bottom: 4%;
         right: 4%;
     }
+}
+
+
+/* =========================================
+   17. PROGRAMS PAGE
+========================================= */
+
+/* ---------- Shared pieces ---------- */
+
+.pg-data {
+    --c: var(--green-dark);
+    --g: rgba(57, 255, 20, .22);
+}
+
+.pg-web {
+    --c: var(--purple-light);
+    --g: rgba(109, 60, 255, .35);
+}
+
+.pg-hero h1,
+.pg-about h2,
+.pg-paths h2,
+.pg-diff h2,
+.pg-cta h2 {
+    margin-bottom: 1rem;
+}
+
+.pg-paths .eyebrow,
+.pg-diff .eyebrow,
+.pg-cta .eyebrow,
+.pg-about .eyebrow,
+.pg-hero .eyebrow {
+    margin-bottom: 1rem;
+}
+
+.pg-about p,
+.pg-diff p,
+.pg-cta p {
+    max-width: 34rem;
+}
+
+/* Background images are real <img> tags, so paths work from the HTML file */
+
+.pg-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right;
+    pointer-events: none;
+}
+
+.pg-cta .pg-bg {
+    object-position: center;
+}
+
+/* ---------- Hero ---------- */
+
+.pg-hero {
+    border-top: 0;
+    overflow: hidden;
+    padding: clamp(2.5rem, 6vw, 4.5rem) 0;
+    background:
+        radial-gradient(55% 85% at 76% 55%, rgba(79, 32, 255, .12), transparent 70%),
+        var(--bg-primary);
+}
+
+.pg-hero .grid2 {
+    grid-template-columns: .95fr 1.05fr;
+    gap: 3rem;
+}
+
+.pg-hero .lead {
+    max-width: 30rem;
+    margin-bottom: 2rem;
+}
+
+.pg-hero-img {
+    margin-right: calc((100vw - min(100vw - 2rem, var(--container))) / -2);
+}
+
+.pg-hero-img img {
+    width: 100%;
+    margin-block: -2rem;
+    -webkit-mask-image: radial-gradient(closest-side ellipse at 50% 50%, #000 60%, transparent 100%);
+    mask-image: radial-gradient(closest-side ellipse at 50% 50%, #000 60%, transparent 100%);
+}
+
+/* ---------- About: Learn by doing ---------- */
+
+.pg-about {
+    background:
+        radial-gradient(38% 90% at 82% 60%, rgba(34, 197, 94, .1), transparent 70%),
+        var(--bg-primary);
+}
+
+.pg-about .grid2 {
+    gap: 3rem;
+    align-items: center;
+}
+
+.pg-about p {
+    max-width: 26rem;
+}
+
+.pg-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    list-style: none;
+}
+
+.pg-steps li {
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: .35rem;
+    padding: .25rem 1.25rem;
+    border-left: 1px solid var(--border);
+}
+
+.pg-step-ic {
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 60px;
+    margin: 0 0 .4rem -10px;
+}
+
+.pg-step-ic img {
+    display: block;
+}
+
+.pg-steps b {
+    color: var(--c);
+    font-size: 1.3rem;
+}
+
+.pg-steps strong {
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.pg-steps li > span:last-child {
+    font-size: .9rem;
+    line-height: 1.5;
+}
+
+/* ---------- Choose your path: program cards ---------- */
+
+.pg-data {
+    --c: #22c55e;
+    --n: #39ff14;
+    --g: rgba(57, 255, 20, .28);
+    --tag: #39ff14;
+    --card: linear-gradient(135deg, #0b4a25, #06180f 70%);
+    --wash: linear-gradient(90deg, rgba(10, 90, 40, .85), rgba(8, 45, 24, .6) 45%, transparent 75%);
+}
+
+.pg-web {
+    --c: #8b5cf6;
+    --n: #a78bfa;
+    --g: rgba(109, 60, 255, .4);
+    --tag: #b9a2ff;
+    --card: linear-gradient(135deg, #20127a, #090532 70%);
+    --wash: linear-gradient(90deg, rgba(45, 25, 150, .85), rgba(25, 12, 90, .6) 45%, transparent 75%);
+}
+
+.pg-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2.5rem;
+}
+
+.pg-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 2.25rem;
+    border: 1.5px solid var(--c);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--card);
+    box-shadow: 0 0 24px var(--g);
+    transition: transform .25s, box-shadow .25s;
+}
+
+.pg-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 40px var(--g);
+}
+
+.pg-card .pg-bg {
+    left: auto;
+    right: 0;
+    width: 62%;
+    object-position: right center;
+    filter: brightness(.85);
+    transform: scale(1.08);
+    transform-origin: right center;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%);
+    mask-image: linear-gradient(90deg, transparent, #000 40%);
+}
+
+.pg-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--wash);
+}
+
+.pg-card > :not(.pg-bg) {
+    position: relative;
+    z-index: 2;
+}
+
+.pg-card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.pg-tile {
+    flex: none;
+    width: 3.75rem;
+    height: 3.75rem;
+    filter: drop-shadow(0 0 10px var(--g));
+}
+
+.pg-num {
+    color: var(--n);
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.pg-card h3 {
+    margin-bottom: .35rem;
+    color: #fff;
+    font-size: 1.6rem;
+}
+
+.pg-tag {
+    margin-bottom: 1rem;
+    color: var(--tag);
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.pg-card p:not(.pg-tag) {
+    max-width: 23rem;
+    line-height: 1.7;
+}
+
+.pg-key {
+    margin: 1.5rem 0 .85rem;
+    color: #fff;
+    font-size: .95rem;
+}
+
+.pg-key::before {
+    content: "\25B8";
+    margin-right: .45rem;
+}
+
+.pg-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    max-width: 24rem;
+    list-style: none;
+}
+
+.pg-data .pg-pills {
+    max-width: 25rem;
+}
+
+.pg-web .pg-pills {
+    max-width: 21rem;
+}
+
+.pg-pills li {
+    padding: .5rem 1.15rem;
+    border: 1px solid var(--c);
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, .04);
+    color: #fff;
+    font-size: .88rem;
+}
+
+.pg-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    margin-top: auto;
+    padding-top: 1.75rem;
+    color: var(--n);
+    font-weight: 700;
+}
+
+.pg-link .ico {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+/* ---------- The difference: comparison ---------- */
+
+.pg-diff {
+    position: relative;
+}
+
+.pg-diff::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(57, 255, 20, .7) 20%, rgba(57, 255, 20, .7) 60%, transparent);
+    box-shadow: 0 0 14px rgba(57, 255, 20, .45);
+    opacity: .6;
+}
+
+.pg-diff .grid2 {
+    grid-template-columns: .8fr 1.2fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.pg-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, .02);
+}
+
+.pg-col {
+    display: grid;
+    grid-template-columns: 3.25rem 1fr;
+    column-gap: 2.5rem;
+    align-content: start;
+    padding: 1.75rem 1.5rem;
+}
+
+.pg-col + .pg-col {
+    border-left: 1px solid var(--border);
+}
+
+.pg-col .pg-tile {
+    grid-row: span 2;
+    width: 3.25rem;
+    height: 3.25rem;
+}
+
+.pg-col h3 {
+    margin-bottom: .9rem;
+    color: #fff;
+    font-size: 1.05rem;
+}
+
+.pg-col ul {
+    display: grid;
+    gap: .65rem;
+    list-style: none;
+}
+
+.pg-col li {
+    position: relative;
+}
+
+.pg-col li::before {
+    content: "\2713";
+    position: absolute;
+    left: -1.6rem;
+    color: var(--n);
+    font-size: 1.05em;
+    font-weight: 700;
+}
+
+/* ---------- Call to action ---------- */
+
+.pg-cta {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(3.5rem, 8vw, 5.5rem) 0;
+}
+
+.pg-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: rgba(3, 10, 25, .35);
+}
+
+.pg-cta > .wrap {
+    position: relative;
+    z-index: 2;
+}
+
+.pg-cta-in {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.pg-cta-btns {
+    display: grid;
+    justify-items: center;
+    gap: 1.25rem;
+}
+
+.pg-home {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    color: var(--green);
+    font-weight: 600;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+    .pg-hero .grid2,
+    .pg-about .grid2,
+    .pg-diff .grid2,
+    .pg-cards {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .pg-hero-img {
+        margin-right: 0;
+    }
+
+    .pg-hero-img img {
+        margin-block: 0;
+    }
+
+    .pg-cta-btns {
+        justify-items: start;
+    }
+}
+
+@media (max-width: 600px) {
+    .pg-steps,
+    .pg-compare {
+        grid-template-columns: 1fr;
+    }
+
+    .pg-col + .pg-col {
+        border-top: 1px solid var(--border);
+        border-left: 0;
+    }
+
+    .pg-card {
+        padding: 1.75rem 1.5rem;
+    }
+
+    .pg-cta-btns {
+        justify-items: start;
+    }
+}
+
+/* ---------- Programs page: footer finish ---------- */
+
+.pg-page footer {
+    position: relative;
+    overflow: hidden;
+}
+
+.pg-page footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(45deg, rgba(57, 255, 20, .2) 0, transparent 20%),
+        linear-gradient(-45deg, rgba(109, 60, 255, .3) 0, transparent 20%);
+}
+
+.pg-page footer .wrap {
+    position: relative;
+}
+
+.pg-page footer img[alt="TechBridge"] {
+    width: 190px;
+    height: auto;
+}
+
+.pg-page .fs .ico {
+    box-sizing: content-box;
+    padding: .3rem;
+    border-radius: 50%;
+    background: #fff;
+    color: #0a1020;
+}
+
+.pg-page .fgrid li + li {
+    margin-top: .6rem;
+}
+
+.pg-cta p {
+    max-width: 28rem;
 }
