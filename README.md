@@ -10,8 +10,9 @@ The site is a static build in plain HTML5 and CSS3. It has no JavaScript, no bui
 | --- | --- | --- |
 | Homepage (Task 1) | `index.html` | Introduces TechBridge, the programs, the internship and how to get in touch |
 | Programs (Task 2) | `programs.html` | Explains the two programs, their skills and how they differ, with a clear next step |
+| Internship Tasks (Task 3) | `internship-tasks.html` | Shows the 30-day internship as a roadmap of 8 tasks, with the day, description and difficulty of each |
 
-Both pages share the same navbar, buttons, typography, colours and footer, so they read as one website.
+All three pages share the same navbar, buttons, typography, colours and footer, so they read as one website.
 
 ---
 
@@ -69,6 +70,43 @@ Each program has its own accent colour (green and purple), so visitors can tell 
 
 ---
 
+## Task 3: Internship Tasks Page
+
+The Internship Tasks page answers: **"What am I expected to complete during this internship?"** It is a separate page, `internship-tasks.html`, that presents the whole 30-day journey and links with the Homepage and Programs pages.
+
+### Sections
+
+| Section | Anchor | Description |
+| --- | --- | --- |
+| Hero | `#top` | "Your Journey. Your Projects. Your Growth.", with "30 Days" and "8 Practical Tasks" badges and an "Explore the Tasks" link |
+| Roadmap | `#roadmap` | "Internship Tasks Roadmap": all 8 tasks in a zig-zag timeline |
+| Call to action | n/a | "Join the TechBridge Internship Today!" with the apply button and a link back to the homepage |
+| Footer | n/a | Same footer as the other pages |
+
+### The 8 tasks
+
+| Task | Title | Day | Difficulty label |
+| --- | --- | --- | --- |
+| 01 | Build the TechBridge Homepage | 1 | Beginner |
+| 02 | Build the TechBridge Programs Experience | 4 | Beginner |
+| 03 | Build the Internship Tasks Experience | 8 | Beginner to Intermediate |
+| 04 | Build an Interactive Task Tracker | 11 | Intermediate |
+| 05 | Build the Intern Registration Experience | 15 | Intermediate |
+| 06 | Build the Task Submission System | 19 | Intermediate |
+| 07 | Build the Intern Dashboard | 22 | Intermediate to Advanced Beginner |
+| 08 | Build the Complete TechBridge Platform | 26 | Capstone |
+
+Each card shows the task number, title, day, a short description, a difficulty label and an icon. The difficulty labels are a guide to how the internship becomes more challenging, not official ratings. No task is marked as completed, available or locked.
+
+### Highlights
+- A connected timeline with a glowing centre line and numbered nodes. Green cards sit on the left and purple cards on the right, so the sequence reads clearly from Day 1 to Day 26.
+- On tablet and mobile the roadmap becomes a single column along a line on the left.
+- The roadmap is built from real HTML and CSS rather than an image, so the text is readable by screen readers and the cards stay responsive.
+- The eight task icons and the rocket icon are lightweight inline SVGs, so no extra icon files are needed.
+- No JavaScript. The page uses HTML5 and CSS3 only.
+
+---
+
 ## Features (whole site)
 
 - Responsive layout (desktop, tablet, mobile)
@@ -83,7 +121,8 @@ Each program has its own accent colour (green and purple), so visitors can tell 
 techbridge/
 ├── index.html              # Homepage (Task 1)
 ├── programs.html           # Programs page (Task 2)
-├── style.css               # All styles for both pages
+├── internship-tasks.html   # Internship Tasks page (Task 3)
+├── style.css               # All styles for all three pages
 ├── README.md
 └── assets/
     ├── icons/              # SVG icons, program tiles, and the three step icons (step-*.png)
@@ -102,19 +141,31 @@ techbridge/
 | `assets/icons/tile-web-development.svg` | Web Development icon tile |
 | `assets/icons/step-learn.png`, `step-practice.png`, `step-build.png` | "Learn by doing" step icons |
 
+### Internship Tasks page assets
+
+| File | Used for |
+| --- | --- |
+| `assets/images/internship-hero.jpg` | Hero illustration (a glowing road leading to a flag) |
+| `assets/images/programs-cta-bg.jpg` | Call-to-action banner background (shared with the Programs page) |
+
+The task icons are inline SVGs defined in `internship-tasks.html`.
+
 ## Getting Started
 
 No installation is needed.
 
 1. Download or clone the repository.
 2. Open `index.html` in any modern browser.
-3. Use the navbar to move to the Programs page.
-
+3. Use the navbar to move between the Home, Programs and Internship Tasks pages.
 
 ## Navigation
 
-- On the **Programs page**, "Home", "Internship", "About" and "Contact" link back to the matching sections on `index.html`.
-- On the **homepage**, link "Programs" in the navbar to `programs.html`. The program cards can point to `programs.html#data-analytics` and `programs.html#web-development`.
+All three pages share the same navbar: **Home, Programs, Internship Tasks, About, Contact** and the Apply Now button.
+
+- **Home** goes to `index.html`, **Programs** goes to `programs.html`, and **Internship Tasks** goes to `internship-tasks.html`.
+- **About** and **Contact** link to the matching sections on `index.html`.
+- Each page highlights its own link in the navbar (the `on` class).
+- The footer Programs links point to `programs.html#data-analytics` and `programs.html#web-development`, and the footer Internship link goes to `internship-tasks.html`.
 
 ## Customisation
 
@@ -134,6 +185,8 @@ No installation is needed.
 **Application link:** the "Apply" buttons point to the Google Form at `https://forms.gle/8EbdSy5ttGfLZfjv5`. Search `index.html` and `programs.html` for that URL to change it.
 
 **Program text and skills:** edit the card and comparison content directly in `programs.html`.
+
+**Internship tasks:** edit the eight task cards in the roadmap of `internship-tasks.html`. Each card holds the task number, title, day, description and difficulty label. Cards alternate between `rm-odd` (green, left) and `rm-even` (purple, right).
 
 **Fonts:** loaded from Google Fonts: *Plus Jakarta Sans* (body and headings) and *Caveat* (handwritten tagline).
 
@@ -158,6 +211,7 @@ No installation is needed.
 15. Reduced motion
 16. Icons
 17. Programs page (all styles for `programs.html`, using a `pg-` class prefix)
+18. Internship Tasks page (all styles for `internship-tasks.html`, using `it-` and `rm-` class prefixes)
 
 **Breakpoints:** 1023px (tablet grids), 900px (hamburger menu, single column) and 600px (mobile).
 
@@ -168,6 +222,9 @@ No installation is needed.
 - Every apply button opens the official application form.
 - The layout holds up on desktop, tablet and mobile widths.
 - The Programs page looks like part of the same website as the homepage.
+- All 8 internship tasks appear with the correct numbers, titles and days (1, 4, 8, 11, 15, 19, 22, 26).
+- The Internship Tasks page works on desktop, tablet and mobile, with no horizontal scrolling.
+- A new intern can tell what they have to complete and how the difficulty grows.
 
 ## Browser Support
 
