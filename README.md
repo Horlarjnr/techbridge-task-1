@@ -2,7 +2,7 @@
 
 The website for **TechBridge**, a learning initiative by **Baselink Services Limited**. TechBridge offers practical training in **Data Analytics** and **Web Development**, plus a **30-Day Practical Internship** that ends with a recommendation letter, based on participation and performance.
 
-The site is a static build in plain HTML5 and CSS3. It has no JavaScript, no build step and no dependencies.
+The site is a static build in plain HTML5 and CSS3, with a small amount of vanilla JavaScript on the Internship Tasks page (Task 4). It has no frameworks, no build step and no dependencies.
 
 ## Pages
 
@@ -10,7 +10,7 @@ The site is a static build in plain HTML5 and CSS3. It has no JavaScript, no bui
 | --- | --- | --- |
 | Homepage (Task 1) | `index.html` | Introduces TechBridge, the programs, the internship and how to get in touch |
 | Programs (Task 2) | `programs.html` | Explains the two programs, their skills and how they differ, with a clear next step |
-| Internship Tasks (Task 3) | `internship-tasks.html` | Shows the 30-day internship as a roadmap of 8 tasks, with the day, description and difficulty of each |
+| Internship Tasks (Tasks 3 and 4) | `internship-tasks.html` | Shows the 30-day internship as an interactive roadmap. Visitors switch between the Data Analytics and Web Development tracks to see the 8 tasks of each |
 
 All three pages share the same navbar, buttons, typography, colours and footer, so they read as one website.
 
@@ -72,6 +72,8 @@ Each program has its own accent colour (green and purple), so visitors can tell 
 
 ## Task 3: Internship Tasks Page
 
+> **Note:** Task 4 upgraded this page into an interactive two-track roadmap (see the next section). The zig-zag layout described here is the Task 3 version, which stays in the Git history.
+
 The Internship Tasks page answers: **"What am I expected to complete during this internship?"** It is a separate page, `internship-tasks.html`, that presents the whole 30-day journey and links with the Homepage and Programs pages.
 
 ### Sections
@@ -107,10 +109,82 @@ Each card shows the task number, title, day, a short description, a difficulty l
 
 ---
 
+## Task 4: Interactive Internship Roadmap
+
+Task 4 upgrades `internship-tasks.html` so visitors can **choose a track** and see its complete 8-task journey, without the page reloading. It uses HTML5, CSS3 and vanilla JavaScript, with no frameworks.
+
+### Sections
+
+| Section | Anchor | Description |
+| --- | --- | --- |
+| Hero | `#top` | "Two Tracks. One Goal.", with "30 Days" and "8 Tasks Per Track" cards and an "Explore the Tasks" link |
+| Track selector | `#tracks` | Two buttons: Data Analytics (green) and Web Development (purple) |
+| Roadmap | `#roadmap` | The 8 tasks of the selected track, with a "Currently viewing" label and a difficulty legend |
+| Call to action | n/a | "Join the TechBridge Internship" with the apply button and a link back to the homepage |
+| Footer | n/a | Same footer as the other pages |
+
+### The two tracks
+
+Web Development is selected when the page first loads. All content comes from the official Task 4 brief.
+
+**Data Analytics**
+
+| Task | Title | Day | Difficulty |
+| --- | --- | --- | --- |
+| 01 | Data Cleaning Basics | 1 | Beginner |
+| 02 | Formulas & Pivot Tables | 4 | Beginner |
+| 03 | Data Visualization | 8 | Beginner to Intermediate |
+| 04 | Introduction to SQL | 11 | Beginner to Intermediate |
+| 05 | SQL Joins & Aggregations | 15 | Intermediate |
+| 06 | Lookup Functions & Data Wrangling | 19 | Intermediate |
+| 07 | Mini Analysis Project | 22 | Intermediate |
+| 08 | Capstone Project | 26 | Intermediate |
+
+**Web Development**
+
+| Task | Title | Day | Difficulty |
+| --- | --- | --- | --- |
+| 01 | Build the TechBridge Homepage | 1 | Beginner |
+| 02 | Build the TechBridge Programs Experience | 4 | Beginner |
+| 03 | Build the Internship Tasks Experience | 8 | Beginner to Intermediate |
+| 04 | Build an Interactive Internship Roadmap | 11 | Beginner to Intermediate |
+| 05 | Build the Intern Registration Experience | 15 | Intermediate |
+| 06 | Build the Task Submission System | 19 | Intermediate |
+| 07 | Build the Intern Dashboard | 22 | Intermediate |
+| 08 | Build the Complete TechBridge Internship Platform | 26 | Intermediate |
+
+### How the JavaScript works
+
+All the code is in `script.js`, written in a simple, beginner-friendly style.
+
+| Concept | Where it is used |
+| --- | --- |
+| Variables | `selectedTrack` stores the track that is currently shown |
+| Arrays | `internshipTracks` holds one array of tasks for each track |
+| Objects | Each task is an object with `number`, `day`, `title`, `description`, `difficulty` and `icon` |
+| Functions | `renderTrack()` shows a track, and `createTaskCard()` builds one task card |
+| Event listeners | Each track button listens for clicks |
+| Conditional logic | `getDifficultyClass()` picks the colour for each difficulty, and the click handler only re-renders when a different track is chosen |
+| DOM manipulation | The task cards, headings, "Currently viewing" label and active button are updated without reloading the page |
+
+The cards are built with `createElement` and `textContent`, so no raw HTML is inserted from the data.
+
+### Highlights
+- The selected track has a glowing border and a "Selected" label, so the state is not shown by colour alone.
+- Each track has its own accent colour, heading and subtitle.
+- The track buttons are real `<button>` elements with `aria-pressed`, so they work with a keyboard and screen readers.
+- The roadmap list uses `aria-live="polite"`, so changes can be announced to assistive technology.
+- Visitors without JavaScript see a short message asking them to turn it on.
+- On mobile, the buttons stack and each task card becomes a single column along a line on the left.
+- `prefers-reduced-motion` is respected.
+
+---
+
 ## Features (whole site)
 
 - Responsive layout (desktop, tablet, mobile)
 - Pure-CSS mobile menu (hidden checkbox and label, no JavaScript)
+- Interactive two-track internship roadmap using vanilla JavaScript (Task 4)
 - Smooth-scroll anchor navigation
 - Dark theme with green and purple accents, driven by CSS variables
 - Inline SVG icon sprite that inherits text colour
@@ -123,6 +197,7 @@ techbridge/
 ├── programs.html           # Programs page (Task 2)
 ├── internship-tasks.html   # Internship Tasks page (Task 3)
 ├── style.css               # All styles for all three pages
+├── script.js               # Track switching for the Internship Tasks page (Task 4)
 ├── README.md
 └── assets/
     ├── icons/              # SVG icons, program tiles, and the three step icons (step-*.png)
@@ -148,7 +223,7 @@ techbridge/
 | `assets/images/internship-hero.jpg` | Hero illustration (a glowing road leading to a flag) |
 | `assets/images/programs-cta-bg.jpg` | Call-to-action banner background (shared with the Programs page) |
 
-The task icons are inline SVGs defined in `internship-tasks.html`.
+The hero and call-to-action icons are inline SVGs defined in `internship-tasks.html`. The task icons are small inline SVGs stored in `script.js`, so no extra icon files are needed.
 
 ## Getting Started
 
@@ -186,7 +261,9 @@ All three pages share the same navbar: **Home, Programs, Internship Tasks, About
 
 **Program text and skills:** edit the card and comparison content directly in `programs.html`.
 
-**Internship tasks:** edit the eight task cards in the roadmap of `internship-tasks.html`. Each card holds the task number, title, day, description and difficulty label. Cards alternate between `rm-odd` (green, left) and `rm-even` (purple, right).
+**Internship tasks:** the task data lives in `script.js`, in the `internshipTracks` object. Each track is an array of task objects, so to change a title, day, description or difficulty, edit the matching object. Track headings and labels are in `trackDetails`, and the task icons are in `icons`.
+
+**Track colours:** the Data Analytics (green) and Web Development (purple) accents are set in section 19 of `style.css`.
 
 **Fonts:** loaded from Google Fonts: *Plus Jakarta Sans* (body and headings) and *Caveat* (handwritten tagline).
 
@@ -211,7 +288,8 @@ All three pages share the same navbar: **Home, Programs, Internship Tasks, About
 15. Reduced motion
 16. Icons
 17. Programs page (all styles for `programs.html`, using a `pg-` class prefix)
-18. Internship Tasks page (all styles for `internship-tasks.html`, using `it-` and `rm-` class prefixes)
+18. Internship Tasks page, Task 3 version (hero styles using the `it-` prefix, plus the original zig-zag roadmap using `rm-`)
+19. Interactive internship roadmap, Task 4 (track selector and roadmap list, using `tk-` and `d-` class prefixes)
 
 **Breakpoints:** 1023px (tablet grids), 900px (hamburger menu, single column) and 600px (mobile).
 
@@ -225,6 +303,11 @@ All three pages share the same navbar: **Home, Programs, Internship Tasks, About
 - All 8 internship tasks appear with the correct numbers, titles and days (1, 4, 8, 11, 15, 19, 22, 26).
 - The Internship Tasks page works on desktop, tablet and mobile, with no horizontal scrolling.
 - A new intern can tell what they have to complete and how the difficulty grows.
+- The Internship Tasks page loads with Web Development selected and shows 8 tasks.
+- Clicking Data Analytics shows its 8 tasks with the correct titles, days, descriptions and difficulties, and clicking Web Development brings back the Web Development tasks.
+- Switching tracks several times works without reloading the page, and the selected button is clearly marked.
+- The track buttons work with the keyboard (Tab and Enter).
+- The browser console shows no JavaScript errors.
 
 ## Browser Support
 
