@@ -1829,3 +1829,372 @@ footer a:hover {
         align-items: flex-start;
     }
 }
+
+
+/* =========================================
+   19. INTERACTIVE INTERNSHIP ROADMAP (TASK 4)
+========================================= */
+
+/* ---------- Hero stat cards ---------- */
+
+.it-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    list-style: none;
+}
+
+.it-stats li {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    padding: .8rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, .03);
+}
+
+.it-stats strong {
+    display: block;
+    color: #fff;
+}
+
+.it-stats small {
+    color: var(--text-muted);
+    font-size: .78rem;
+}
+
+/* ---------- Track selector ---------- */
+
+.tk-pick {
+    padding: clamp(2.5rem, 6vw, 4rem) 0;
+}
+
+.tk-pick-in {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.tk-pick .eyebrow {
+    margin-bottom: 1rem;
+}
+
+.tk-pick h2 {
+    margin-bottom: 1rem;
+}
+
+.tk-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.tk-btn {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.25rem;
+    border: 1.5px solid var(--c);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, .03);
+    color: var(--text-secondary);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s, background .2s;
+}
+
+.tk-data {
+    --c: #22c55e;
+    --g: rgba(57, 255, 20, .3);
+}
+
+.tk-web {
+    --c: #8b5cf6;
+    --g: rgba(109, 60, 255, .4);
+}
+
+.tk-btn:hover {
+    transform: translateY(-3px);
+}
+
+.tk-btn:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+.tk-btn[aria-pressed="true"] {
+    background: linear-gradient(135deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .02));
+    box-shadow: 0 0 28px var(--g);
+}
+
+.tk-btn[aria-pressed="true"]::after {
+    content: "\2713  Selected";
+    position: absolute;
+    top: .7rem;
+    right: .9rem;
+    color: var(--c);
+    font-size: .72rem;
+    font-weight: 700;
+}
+
+.tk-btn-t {
+    display: grid;
+    gap: .15rem;
+    font-size: .85rem;
+}
+
+.tk-btn-t strong {
+    color: #fff;
+    font-size: 1.05rem;
+}
+
+.tk-btn > .ico {
+    position: absolute;
+    right: 1rem;
+    bottom: .9rem;
+    color: var(--c);
+}
+
+/* ---------- Roadmap header ---------- */
+
+.tk-road {
+    padding: clamp(2.5rem, 6vw, 4rem) 0;
+    --c: #8b5cf6;
+}
+
+.tk-road[data-track="analytics"] {
+    --c: #22c55e;
+}
+
+.tk-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.tk-head .eyebrow {
+    margin-bottom: .75rem;
+    color: var(--c);
+}
+
+.tk-head h2 {
+    margin-bottom: .6rem;
+}
+
+.tk-now {
+    margin-top: .8rem;
+    font-size: .9rem;
+}
+
+.tk-now strong {
+    padding: .2rem .7rem;
+    border: 1px solid var(--c);
+    border-radius: var(--radius-pill);
+    color: #fff;
+}
+
+.tk-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    list-style: none;
+}
+
+.tk-legend li {
+    padding: .35rem .85rem;
+    border: 1px solid;
+    border-radius: var(--radius-pill);
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+/* ---------- Difficulty colours ---------- */
+
+.d-b {
+    border-color: #22c55e;
+    background: rgba(34, 197, 94, .12);
+    color: #4ade80;
+}
+
+.d-bi {
+    border-color: #2dd4bf;
+    background: rgba(45, 212, 191, .12);
+    color: #5eead4;
+}
+
+.d-i {
+    border-color: #8b5cf6;
+    background: rgba(139, 92, 246, .14);
+    color: #c4b5fd;
+}
+
+/* ---------- Task list ---------- */
+
+.tk-list {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    list-style: none;
+}
+
+.tk-list::before {
+    content: "";
+    position: absolute;
+    top: 1rem;
+    bottom: 1rem;
+    left: 1.625rem;
+    width: 2px;
+    background: linear-gradient(#22c55e, #2dd4bf 45%, #8b5cf6);
+    box-shadow: 0 0 12px rgba(45, 212, 191, .4);
+}
+
+.tk-road[data-track="analytics"] .tk-list::before {
+    background: linear-gradient(#22c55e, #39ff14);
+}
+
+.tk-item {
+    display: grid;
+    grid-template-columns: 3.25rem 1fr;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.tk-node {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border: 3px solid var(--n, #22c55e);
+    border-radius: 50%;
+    background: var(--bg-primary);
+    box-shadow: 0 0 16px var(--n, #22c55e);
+    color: #fff;
+    font-weight: 700;
+}
+
+.tk-road .tk-item:nth-child(n + 3) { --n: #2dd4bf; }
+.tk-road .tk-item:nth-child(n + 4) { --n: #8b5cf6; }
+.tk-road[data-track="analytics"] .tk-item { --n: #22c55e; }
+
+.tk-card {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.1rem 1.5rem;
+    border: 1px solid var(--c);
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, rgba(13, 22, 45, .95), rgba(6, 12, 28, .95));
+    transition: transform .2s, box-shadow .2s;
+}
+
+.tk-card:hover {
+    transform: translateX(4px);
+    box-shadow: 0 0 22px color-mix(in srgb, var(--c) 35%, transparent);
+}
+
+.tk-day {
+    margin-bottom: .2rem;
+    color: var(--c);
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.tk-main h3 {
+    margin-bottom: .3rem;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.tk-main p:last-child {
+    max-width: 38rem;
+    font-size: .9rem;
+    line-height: 1.55;
+}
+
+.tk-diff {
+    padding: .3rem .85rem;
+    border: 1px solid;
+    border-radius: var(--radius-pill);
+    font-size: .75rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.tk-ic {
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 3.5rem;
+    border: 1px solid var(--c);
+    border-radius: .7rem;
+    background: color-mix(in srgb, var(--c) 12%, #050d1f);
+    color: var(--c);
+}
+
+.tk-nojs {
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: #fff;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+    .tk-pick-in {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .tk-card {
+        grid-template-columns: 1fr auto;
+    }
+
+    .tk-main {
+        grid-column: 1 / -1;
+    }
+
+    .tk-diff {
+        justify-self: start;
+    }
+
+    .tk-ic {
+        justify-self: end;
+    }
+}
+
+@media (max-width: 600px) {
+    .tk-btns {
+        grid-template-columns: 1fr;
+    }
+
+    .tk-item {
+        gap: 1rem;
+    }
+
+    .tk-card {
+        padding: 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tk-btn,
+    .tk-card {
+        transition: none;
+    }
+}
+
