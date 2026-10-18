@@ -2,7 +2,7 @@
 
 The website for **TechBridge**, a learning initiative by **Baselink Services Limited**. TechBridge offers practical training in **Data Analytics** and **Web Development**, plus a **30-Day Practical Internship** that ends with a recommendation letter, based on participation and performance.
 
-The site is a static build in plain HTML5 and CSS3, with a small amount of vanilla JavaScript on the Internship Tasks page (Task 4). It has no frameworks, no build step and no dependencies.
+The site is a static build in plain HTML5 and CSS3, with vanilla JavaScript on the Internship Tasks page (Task 4) and the Challenge Hub (Task 5). It has no frameworks, no build step and no dependencies.
 
 ## Pages
 
@@ -12,7 +12,9 @@ The site is a static build in plain HTML5 and CSS3, with a small amount of vanil
 | Programs (Task 2) | `programs.html` | Explains the two programs, their skills and how they differ, with a clear next step |
 | Internship Tasks (Tasks 3 and 4) | `internship-tasks.html` | Shows the 30-day internship as an interactive roadmap. Visitors switch between the Data Analytics and Web Development tracks to see the 8 tasks of each |
 
-All three pages share the same navbar, buttons, typography, colours and footer, so they read as one website.
+| Challenge Hub (Task 5) | `challenges.html` | A searchable, filterable collection of practical challenges for both tracks, with a details panel for each |
+
+All four pages share the same navbar, buttons, typography, colours and footer, so they read as one website.
 
 ---
 
@@ -180,11 +182,70 @@ The cards are built with `createElement` and `textContent`, so no raw HTML is in
 
 ---
 
+## Task 5: Challenge Hub
+
+The Challenge Hub answers: **"What kind of challenges will I actually be working on?"** Visitors can browse practical challenges from both tracks, filter and search them, and open the details of any challenge without leaving the page. It is a separate page, `challenges.html`, with its own script, `challenges.js`.
+
+### Sections
+
+| Section | Anchor | Description |
+| --- | --- | --- |
+| Hero | `#top` | "TechBridge Challenge Hub", an introduction, three indicator cards (2 Tracks, 6+ Challenges, Build Your Skills) and an illustration |
+| Filters | n/a | Track buttons, difficulty buttons and a search field |
+| Available Challenges | `#challenges` | The challenge cards, a result count and a "No challenges found" message |
+| Details panel | n/a | A dialog showing the full information for the selected challenge |
+| Call to action | n/a | "Join the TechBridge Internship" with the apply button and a link back to the homepage |
+| Footer | n/a | Same footer as the other pages |
+
+### The challenges
+
+| No. | Challenge | Track | Difficulty | Day |
+| --- | --- | --- | --- | --- |
+| 01 | Sales Performance Analysis | Data Analytics | Beginner | 1 |
+| 02 | Customer Insights Report | Data Analytics | Beginner | 4 |
+| 03 | Business KPI Dashboard | Data Analytics | Intermediate | 8 |
+| 04 | Developer Portfolio Website | Web Development | Beginner | 11 |
+| 05 | Product Landing Page | Web Development | Beginner | 15 |
+| 06 | Interactive Web Experience | Web Development | Intermediate | 19 |
+| 07 | Customer Churn Analysis | Data Analytics | Advanced | 22 |
+| 08 | Task Manager Web App | Web Development | Advanced | 26 |
+
+Challenges 07 and 08 were added so that the Advanced filter always has results. Each challenge has an overview, learning objectives, required skills, suggested tools, deliverables, an estimated time and an expected result.
+
+### How the JavaScript works
+
+All the code is in `challenges.js`.
+
+| Concept | Where it is used |
+| --- | --- |
+| Data | The `challenges` array holds one object per challenge, so no card is written by hand in the HTML |
+| State | `selectedTrack`, `selectedLevel` and `searchText` store the current filters |
+| Filtering | `matchesFilters()` checks the track, difficulty and search text together |
+| Rendering | `renderChallenges()` rebuilds the cards, the result count, the empty message and the active buttons |
+| Details | `openChallenge()` fills the dialog with the selected challenge and opens it |
+| Events | Click listeners on the filter buttons and "View Challenge" buttons, an input listener on the search field, and a click listener on the dialog backdrop |
+
+- **Filters work together:** selecting Data Analytics and Beginner shows only beginner Data Analytics challenges.
+- **Search:** it matches the title, description, track name and difficulty, and it works together with both filters.
+- **Safe rendering:** the cards are built with `createElement` and `textContent`.
+
+### Highlights
+- The details panel uses the native HTML `<dialog>` element. It closes with the X button, the Escape key or a click outside the panel, and it keeps keyboard focus inside while open.
+- On desktop the details panel floats on the right. On mobile it becomes a full-width sheet at the bottom of the screen.
+- Data Analytics cards are green and Web Development cards are purple, matching the rest of the site.
+- Filter buttons use `aria-pressed`, and the result count uses `aria-live`, so changes are announced to screen readers.
+- The card grid adapts from three columns to two to one, and the filter bar wraps on smaller screens.
+- "Start Challenge" opens the official application form in a new tab, because there is no challenge submission system yet.
+- Visitors without JavaScript see a short message asking them to turn it on.
+
+---
+
 ## Features (whole site)
 
 - Responsive layout (desktop, tablet, mobile)
 - Pure-CSS mobile menu (hidden checkbox and label, no JavaScript)
 - Interactive two-track internship roadmap using vanilla JavaScript (Task 4)
+- Challenge Hub with track and difficulty filters, search and a details dialog (Task 5)
 - Smooth-scroll anchor navigation
 - Dark theme with green and purple accents, driven by CSS variables
 - Inline SVG icon sprite that inherits text colour
@@ -195,9 +256,11 @@ The cards are built with `createElement` and `textContent`, so no raw HTML is in
 techbridge/
 ├── index.html              # Homepage (Task 1)
 ├── programs.html           # Programs page (Task 2)
-├── internship-tasks.html   # Internship Tasks page (Task 3)
-├── style.css               # All styles for all three pages
+├── internship-tasks.html   # Internship Tasks page (Tasks 3 and 4)
+├── challenges.html         # Challenge Hub page (Task 5)
+├── style.css               # All styles for all pages
 ├── script.js               # Track switching for the Internship Tasks page (Task 4)
+├── challenges.js           # Filters, search and details dialog for the Challenge Hub (Task 5)
 ├── README.md
 └── assets/
     ├── icons/              # SVG icons, program tiles, and the three step icons (step-*.png)
@@ -223,7 +286,16 @@ techbridge/
 | `assets/images/internship-hero.jpg` | Hero illustration (a glowing road leading to a flag) |
 | `assets/images/programs-cta-bg.jpg` | Call-to-action banner background (shared with the Programs page) |
 
-The hero and call-to-action icons are inline SVGs defined in `internship-tasks.html`. The task icons are small inline SVGs stored in `script.js`, so no extra icon files are needed.
+### Challenge Hub assets
+
+| File | Used for |
+| --- | --- |
+| `assets/images/challenge-hero.jpg` | Hero illustration (a laptop with dashboards and code panels) |
+| `assets/images/programs-cta-bg.jpg` | Call-to-action banner background (shared) |
+
+The card and indicator icons are inline SVGs from the page's icon sprite.
+
+The Internship Tasks page uses inline SVGs too. The hero and call-to-action icons are inline SVGs defined in `internship-tasks.html`. The task icons are small inline SVGs stored in `script.js`, so no extra icon files are needed.
 
 ## Getting Started
 
@@ -231,13 +303,13 @@ No installation is needed.
 
 1. Download or clone the repository.
 2. Open `index.html` in any modern browser.
-3. Use the navbar to move between the Home, Programs and Internship Tasks pages.
+3. Use the navbar to move between the Home, Programs, Internship Tasks and Challenges pages.
 
 ## Navigation
 
-All three pages share the same navbar: **Home, Programs, Internship Tasks, About, Contact** and the Apply Now button.
+All pages share the same navbar: **Home, Programs, Internship Tasks, Challenges, About, Contact** and the Apply Now button.
 
-- **Home** goes to `index.html`, **Programs** goes to `programs.html`, and **Internship Tasks** goes to `internship-tasks.html`.
+- **Home** goes to `index.html`, **Programs** goes to `programs.html`, and **Internship Tasks** goes to `internship-tasks.html`, and **Challenges** goes to `challenges.html`.
 - **About** and **Contact** link to the matching sections on `index.html`.
 - Each page highlights its own link in the navbar (the `on` class).
 - The footer Programs links point to `programs.html#data-analytics` and `programs.html#web-development`, and the footer Internship link goes to `internship-tasks.html`.
@@ -263,7 +335,9 @@ All three pages share the same navbar: **Home, Programs, Internship Tasks, About
 
 **Internship tasks:** the task data lives in `script.js`, in the `internshipTracks` object. Each track is an array of task objects, so to change a title, day, description or difficulty, edit the matching object. Track headings and labels are in `trackDetails`, and the task icons are in `icons`.
 
-**Track colours:** the Data Analytics (green) and Web Development (purple) accents are set in section 19 of `style.css`.
+**Track colours:** the Data Analytics (green) and Web Development (purple) accents are set in section 19 of `style.css` for the roadmap, and in section 20 for the Challenge Hub (`.ch-data` and `.ch-web`).
+
+**Challenges:** the challenge data lives in `challenges.js`, in the `challenges` array. To change a title, difficulty, description or any detail, edit the matching object. To add a challenge, add a new object with a unique `id`. Each challenge needs a `track` of `analytics` or `webDevelopment` and a `difficulty` of `Beginner`, `Intermediate` or `Advanced`.
 
 **Fonts:** loaded from Google Fonts: *Plus Jakarta Sans* (body and headings) and *Caveat* (handwritten tagline).
 
@@ -290,6 +364,7 @@ All three pages share the same navbar: **Home, Programs, Internship Tasks, About
 17. Programs page (all styles for `programs.html`, using a `pg-` class prefix)
 18. Internship Tasks page, Task 3 version (hero styles using the `it-` prefix, plus the original zig-zag roadmap using `rm-`)
 19. Interactive internship roadmap, Task 4 (track selector and roadmap list, using `tk-` and `d-` class prefixes)
+20. Challenge Hub, Task 5 (hero, filters, challenge cards and details dialog, using the `ch-` class prefix)
 
 **Breakpoints:** 1023px (tablet grids), 900px (hamburger menu, single column) and 600px (mobile).
 
@@ -308,10 +383,15 @@ All three pages share the same navbar: **Home, Programs, Internship Tasks, About
 - Switching tracks several times works without reloading the page, and the selected button is clearly marked.
 - The track buttons work with the keyboard (Tab and Enter).
 - The browser console shows no JavaScript errors.
+- The Challenge Hub shows all 8 challenges on load, with both tracks represented.
+- The track filter, the difficulty filter and the search field each work, and they work together (for example Data Analytics and Beginner shows only beginner Data Analytics challenges).
+- Searching for text that matches nothing shows "No challenges found", and "Reset filters" brings every challenge back.
+- Every "View Challenge" button opens the correct details, and the panel closes with the X button, the Escape key or a click outside it.
+- The Challenge Hub works on desktop, tablet and mobile, with no horizontal scrolling.
 
 ## Browser Support
 
-Works in current versions of Chrome, Edge, Firefox and Safari. The site uses `mask-image`, `mask-composite`, `mix-blend-mode` and `color-mix()`, which these browsers support. In an older browser, some glow and blend effects may not appear, but the content stays readable.
+Works in current versions of Chrome, Edge, Firefox and Safari. The site uses `mask-image`, `mask-composite`, `mix-blend-mode` and `color-mix()`, which these browsers support. In an older browser, some glow and blend effects may not appear, but the content stays readable. The Challenge Hub details panel uses the native `<dialog>` element, which these browsers also support.
 
 ## Deployment
 
