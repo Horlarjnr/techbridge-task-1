@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Intern Dashboard — TechBridge</title>
+        <meta name="description" content="Track your TechBridge internship progress, manage your tasks, explore modern web technologies and jump to the Challenge Hub.">
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body class="db">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-arrow-right" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></g></symbol><symbol id="i-menu" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></g></symbol><symbol id="i-close" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></g></symbol><symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7l8.5 6.5L20.5 7"/></g></symbol><symbol id="i-linkedin" viewBox="0 0 24 24"><g fill="currentColor"><path d="M4.5 9h3.2v10.5H4.5zM6.1 4a1.9 1.9 0 1 1 0 3.8 1.9 1.9 0 0 1 0-3.8zM9.8 9h3v1.5c.5-.9 1.7-1.7 3.3-1.7 3.2 0 3.9 2.1 3.9 4.9v5.8h-3.2v-5.1c0-1.3 0-2.8-1.7-2.8s-2 1.3-2 2.7v5.2H9.8z"/></g></symbol><symbol id="i-facebook" viewBox="0 0 24 24"><g fill="currentColor"><path d="M13.5 21v-7.7h2.6l.4-3h-3V8.4c0-.9.3-1.5 1.5-1.5h1.6V4.2c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z"/></g></symbol><symbol id="i-whatsapp" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5l1.3-4.3A8.5 8.5 0 1 1 8 19.3l-4.5 1.2z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.6-2-1-.9.8c-1-.4-2-1.4-2.4-2.4l.8-.9-1-2L9 8.5z"/></g></symbol></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="t-home" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></g></symbol><symbol id="t-grid" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></g></symbol><symbol id="t-doc" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></g></symbol><symbol id="t-code" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/></g></symbol><symbol id="t-user" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.400 3.600-7 8-7s8 2.600 8 7"/></g></symbol><symbol id="t-upload" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.6-7.960A6 6 0 0 1 18 10a4 4 0 0 1-1 8z"/><path d="M12 17v-6M9 13.500l3-3 3 3"/></g></symbol><symbol id="t-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><rect x="5" y="13" width="3" height="7" rx=".6"/><rect x="10.500" y="9" width="3" height="11" rx=".6"/><rect x="16" y="5" width="3" height="15" rx=".6"/></g></symbol><symbol id="t-trophy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4v2a3 3 0 0 0 3 3M16 6h4v2a3 3 0 0 1-3 3M12 13v4M8 21h8M10 17h4"/></g></symbol><symbol id="t-rocket" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 2 5 5 5 9l-2.500 3h-5L7 12c0-4 2-7 5-9z"/><circle cx="12" cy="10" r="1.500"/><path d="M7 14l-3 2 1 3 3-1M17 14l3 2-1 3-3-1"/></g></symbol><symbol id="t-cal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.500" y="5" width="17" height="15" rx="2"/><path d="M3.500 10h17M8 3v4M16 3v4"/></g></symbol><symbol id="t-layers" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></g></symbol></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="t-dash" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 15l3-3 3 2 4-5"/><circle cx="8" cy="9" r="1"/></g></symbol><symbol id="t-monitor" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></g></symbol><symbol id="t-gear" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></g></symbol><symbol id="t-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></g></symbol><symbol id="t-check" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8 12.5l3 3 5-6"/></g></symbol><symbol id="t-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></g></symbol><symbol id="t-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></g></symbol><symbol id="t-bolt" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 13h6l-1 8 8-10h-6z"/></g></symbol></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="t-moon" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.500 8.500 0 0 1 9.500 4 8.500 8.500 0 1 0 20 14.500z"/></g></symbol><symbol id="t-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.500v2.500M12 19v2.500M2.500 12H5M19 12h2.500M5.300 5.300l1.800 1.800M16.900 16.900l1.800 1.800M5.300 18.700l1.800-1.800M16.900 7.100l1.800-1.800"/></g></symbol><symbol id="t-bell" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.500 2h-15z"/><path d="M10 21h4"/></g></symbol><symbol id="t-list" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></g></symbol><symbol id="t-percent" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5L5 19"/><circle cx="7" cy="7" r="2.500"/><circle cx="17" cy="17" r="2.500"/></g></symbol><symbol id="t-chev" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></g></symbol><symbol id="t-tasks" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.500 12.500l2.500 2.500 4.500-5"/></g></symbol></svg>
+<a class="db-skip" href="#main">Skip to main content</a>
+
+<header class="db-top">
+    <button type="button" class="db-burger" id="db-burger" aria-controls="db-side" aria-expanded="false" aria-label="Open dashboard menu"><svg width="22" height="22" aria-hidden="true"><use href="#t-list"></use></svg></button>
+    <a class="db-logo" href="index.html"><img src="assets/images/techbridge-logo.png" alt="TechBridge home" width="170" height="34"></a>
+    <div class="db-top-r">
+        <button type="button" class="db-theme" id="db-theme" aria-label="Switch to light theme" aria-pressed="false"><span class="db-th-moon"><svg width="18" height="18" aria-hidden="true"><use href="#t-moon"></use></svg></span><span class="db-th-sun"><svg width="18" height="18" aria-hidden="true"><use href="#t-sun"></use></svg></span></button>
+        <div class="db-bellwrap">
+            <button type="button" class="db-bell" id="db-bell" aria-label="Notifications" aria-expanded="false" aria-controls="db-notes"><svg width="20" height="20" aria-hidden="true"><use href="#t-bell"></use></svg><span class="db-dot" id="db-dot" hidden></span></button>
+            <div class="db-notes" id="db-notes" hidden><p class="db-notes-t">Notifications</p><ul id="db-notes-list"></ul></div>
+        </div>
+        <div class="db-user"><span class="db-avatar"><svg width="20" height="20" aria-hidden="true"><use href="#t-user"></use></svg></span><span class="db-user-name" id="db-user-top">Olayemi Motin</span></div>
+    </div>
+</header>
+
+<div class="db-shell">
+    <aside class="db-side" id="db-side" aria-label="Dashboard sidebar">
+        <nav aria-label="Dashboard">
+            <a href="#overview" class="db-nav on" aria-current="page"><svg width="22" height="22" aria-hidden="true"><use href="#t-home"></use></svg> Overview</a>
+            <a href="#tasks" class="db-nav"><svg width="22" height="22" aria-hidden="true"><use href="#t-tasks"></use></svg> My Tasks</a>
+            <a href="#tech" class="db-nav"><svg width="22" height="22" aria-hidden="true"><use href="#t-code"></use></svg> Technology Explorer</a>
+            <a href="challenges.html" class="db-nav"><svg width="22" height="22" aria-hidden="true"><use href="#t-trophy"></use></svg> Challenge Hub</a>
+            <a href="#profile" class="db-nav"><svg width="22" height="22" aria-hidden="true"><use href="#t-user"></use></svg> Profile</a>
+        </nav>
+        <a class="db-side-card" href="challenges.html"><span class="db-side-ic"><svg width="22" height="22" aria-hidden="true"><use href="#t-trophy"></use></svg></span><strong>Explore Challenges</strong><span>Test your skills with real-world projects and challenges.</span><svg class="ico" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
+        <p class="db-tag">Bridging Learning to Real-World Experience.</p>
+    </aside>
+    <div class="db-overlay" id="db-overlay" hidden></div>
+
+    <main class="db-main" id="main">
+        <div class="db-col">
+            <div id="db-cele" class="db-cele" hidden role="status"><strong>Congratulations! All 8 tasks completed.</strong><span>You've finished the TechBridge internship tasks. Great work!</span></div>
+
+            <section class="db-welcome" id="overview" aria-labelledby="db-hello">
+                <div class="db-hello">
+                    <span class="db-bigavatar"><svg width="44" height="44" aria-hidden="true"><use href="#t-user"></use></svg></span>
+                    <div>
+                        <h1 id="db-hello">Welcome back, <span id="db-name">Olayemi</span> 👋</h1>
+                        <p class="db-role">Web Development Intern</p>
+                        <p>Keep pushing! You're making great progress in your TechBridge journey.</p>
+                        <p class="db-pill db-pill-g" id="db-status">Internship Status: In Progress</p>
+                    </div>
+                </div>
+                <div class="db-count">
+                    <span class="db-count-ic"><svg width="26" height="26" aria-hidden="true"><use href="#t-cal"></use></svg></span>
+                    <div><p class="db-count-t">Internship Countdown</p><p class="db-count-n" id="db-days">&nbsp;</p><p class="db-count-d" id="db-range">&nbsp;</p></div>
+                </div>
+            </section>
+
+            <div class="db-row2">
+                <section class="db-card" aria-labelledby="prog-t">
+                    <div class="db-card-h"><h2 id="prog-t"><svg width="22" height="22" aria-hidden="true"><use href="#t-chart"></use></svg> Internship Progress</h2><p class="db-sub" id="db-prog-text"></p></div>
+                    <div class="db-bar" role="progressbar" aria-labelledby="prog-t" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="db-bar"><span id="db-fill"></span></div>
+                    <p class="db-bar-pct" id="db-bar-pct">0%</p>
+                    <dl class="db-stats">
+                        <div><dt><svg width="22" height="22" aria-hidden="true"><use href="#t-tasks"></use></svg> Total Tasks</dt><dd id="st-total">8</dd></div>
+                        <div><dt><svg width="22" height="22" aria-hidden="true"><use href="#t-check"></use></svg> Completed</dt><dd id="st-done">0</dd></div>
+                        <div><dt><svg width="22" height="22" aria-hidden="true"><use href="#t-clock"></use></svg> Remaining</dt><dd id="st-left">8</dd></div>
+                        <div><dt><svg width="22" height="22" aria-hidden="true"><use href="#t-percent"></use></svg> Progress</dt><dd id="st-pct">0%</dd></div>
+                    </dl>
+                </section>
+                <section class="db-card db-current" aria-labelledby="cur-t">
+                    <h2 id="cur-t"><svg width="22" height="22" aria-hidden="true"><use href="#t-target"></use></svg> Current Task</h2>
+                    <div id="db-cur-body"></div>
+                    <button type="button" class="btn btn-primary" id="db-continue">Continue Task <svg class="ico" aria-hidden="true"><use href="#i-arrow-right"></use></svg></button>
+                </section>
+            </div>
+
+            <section id="tasks" class="db-tasks" aria-labelledby="tasks-t">
+                <div class="db-tasks-h">
+                    <h2 id="tasks-t"><svg width="22" height="22" aria-hidden="true"><use href="#t-list"></use></svg> My Tasks</h2>
+                    <div class="db-filters" role="group" aria-label="Filter tasks by status">
+                        <button type="button" class="db-f" data-filter="all" aria-pressed="true">All</button>
+                        <button type="button" class="db-f" data-filter="completed" aria-pressed="false">Completed</button>
+                        <button type="button" class="db-f" data-filter="progress" aria-pressed="false">In Progress</button>
+                        <button type="button" class="db-f" data-filter="notstarted" aria-pressed="false">Not Started</button>
+                    </div>
+                    <label class="db-search"><svg width="18" height="18" aria-hidden="true"><use href="#t-search"></use></svg><span class="db-vh">Search tasks</span><input type="search" id="db-q" placeholder="Search tasks..." autocomplete="off"></label>
+                </div>
+                <ol class="db-list" id="db-list"></ol>
+                <div class="db-empty" id="db-empty" hidden><p>No tasks match your filter or search.</p><button type="button" class="btn btn-secondary" id="db-clear">Clear filters</button></div>
+                <noscript><p class="tk-nojs">Please turn on JavaScript to use the task tracker.</p></noscript>
+                <p class="db-reset"><button type="button" id="db-reset">Reset progress</button> <span>Progress is saved in this browser only.</span></p>
+            </section>
+        </div>
+
+        <div class="db-col db-right">
+            <section class="db-card" aria-labelledby="hub-t">
+                <h2 id="hub-t"><svg width="22" height="22" aria-hidden="true"><use href="#t-trophy"></use></svg> Challenge Hub</h2>
+                <p class="db-hub-n">8 Challenges Available</p>
+                <p>Explore practical Data Analytics and Web Development challenges. Filter by track and difficulty, then open any challenge for full details.</p>
+                <a class="btn btn-primary" href="challenges.html">Go to Challenge Hub <svg class="ico" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
+            </section>
+
+            <section class="db-card" id="tech" aria-labelledby="tech-t">
+                <h2 id="tech-t"><svg width="22" height="22" aria-hidden="true"><use href="#t-code"></use></svg> Technology Explorer</h2>
+                <p class="db-sub">Learn about modern web technologies and how they power great products.</p>
+                <div class="db-tech-list" id="db-tech-list" role="group" aria-label="Choose a technology"></div>
+                <div class="db-tech-detail" id="db-tech-detail" aria-live="polite"></div>
+            </section>
+
+            <section class="db-card" id="profile" aria-labelledby="prof-t">
+                <div class="db-prof-h"><h2 id="prof-t"><svg width="22" height="22" aria-hidden="true"><use href="#t-user"></use></svg> Profile</h2><button type="button" class="db-edit" id="db-edit">Edit Profile</button></div>
+                <p class="db-prof-name" id="db-prof-name">Olayemi Motin</p>
+                <p class="db-role-s">Web Development Intern</p>
+                <dl class="db-prof-dl">
+                    <div><dt>Track</dt><dd><span class="db-pill db-pill-p">Web Development</span></dd></div>
+                    <div><dt>Status</dt><dd><span class="db-pill db-pill-b" id="db-prof-status">In Progress</span></dd></div>
+                    <div><dt>Joined</dt><dd>Oct 1, 2026</dd></div>
+                </dl>
+                <p class="db-quote">“Small steps every day lead to big results.” — TechBridge</p>
+                <p class="db-sample">Sample profile data, saved only in this browser. It is not connected to an account.</p>
+            </section>
+        </div>
+    </main>
+</div>
+
+<footer class="db-foot"><p>© 2026 TechBridge by Baselink Services Limited.</p><nav aria-label="Legal"><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Support</a></nav></footer>
+
+<dialog class="db-dialog" id="db-task-dialog" aria-labelledby="db-task-title"><div class="db-d-in" id="db-task-in"></div></dialog>
+<dialog class="db-dialog db-dialog-s" id="db-prof-dialog" aria-labelledby="db-prof-title">
+    <form method="dialog" class="db-d-in" id="db-prof-form">
+        <button type="button" class="ch-close" id="db-prof-x" aria-label="Close"><svg width="20" height="20" aria-hidden="true"><use href="#i-close"></use></svg></button>
+        <h3 id="db-prof-title">Edit Profile</h3>
+        <label class="db-lab" for="db-name-in">Display name</label>
+        <input class="db-input" id="db-name-in" type="text" maxlength="40" required autocomplete="off">
+        <p class="db-sample">Saved only in this browser.</p>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</dialog>
+<div class="db-toast" id="db-toast" role="status" aria-live="polite" hidden></div>
+<script src="dashboard.js" defer></script>
+    </body>
+</html>
