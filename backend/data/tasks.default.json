@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "title": "TechBridge Landing Page",
+    "description": "Create a responsive landing page for TechBridge with a clean and modern design.",
+    "status": "completed",
+    "day": 1,
+    "icon": "home",
+    "skills": ["HTML", "CSS", "Responsive design"],
+    "deliverables": ["Homepage", "Mobile menu", "Footer"]
+  },
+  {
+    "id": 2,
+    "title": "Programs Page",
+    "description": "Build the Data Analytics and Web Development programs page with detailed information.",
+    "status": "completed",
+    "day": 4,
+    "icon": "grid",
+    "skills": ["HTML", "CSS layout", "Cards and sections"],
+    "deliverables": ["Programs page", "Program cards", "Comparison section"]
+  },
+  {
+    "id": 3,
+    "title": "Internship Tasks Page",
+    "description": "Create the internship tasks page with the 8-task roadmap.",
+    "status": "completed",
+    "day": 8,
+    "icon": "doc",
+    "skills": ["CSS Grid", "Timeline layout", "Difficulty labels"],
+    "deliverables": ["Roadmap page", "8 task cards"]
+  },
+  {
+    "id": 4,
+    "title": "Interactive Task Tracker",
+    "description": "Build the interactive task tracker with filtering and task details.",
+    "status": "completed",
+    "day": 11,
+    "icon": "bolt",
+    "skills": ["JavaScript arrays and objects", "DOM manipulation", "Event listeners"],
+    "deliverables": ["Two-track roadmap", "Track switcher"]
+  },
+  {
+    "id": 5,
+    "title": "Challenge Hub",
+    "description": "Create the challenge hub with filters and detailed challenge views.",
+    "status": "completed",
+    "day": 15,
+    "icon": "trophy",
+    "skills": ["Filtering and search", "Dialogs", "Dynamic rendering"],
+    "deliverables": ["Challenge cards", "Filters and search", "Details panel"]
+  },
+  {
+    "id": 6,
+    "title": "Intern Dashboard",
+    "description": "Build the interactive intern dashboard with progress tracking and technology explorer.",
+    "status": "completed",
+    "day": 19,
+    "icon": "dash",
+    "skills": ["State management", "Progress calculations", "Technology Explorer"],
+    "deliverables": ["Progress overview", "Task tracker", "Technology Explorer"]
+  },
+  {
+    "id": 7,
+    "title": "Build a Task Management API",
+    "description": "Create a REST API with Node.js and Express to manage tasks.",
+    "status": "progress",
+    "day": 22,
+    "icon": "code",
+    "skills": ["Node.js", "Express.js", "REST APIs", "fetch()"],
+    "deliverables": ["Express server", "tasks.json data file", "Dashboard connected to the API"]
+  },
+  {
+    "id": 8,
+    "title": "Final Project",
+    "description": "Complete the final project and submit your work.",
+    "status": "notstarted",
+    "day": 26,
+    "icon": "rocket",
+    "skills": ["Planning", "Combining components", "Testing"],
+    "deliverables": ["Finished project", "Submission"]
+  }
+]
