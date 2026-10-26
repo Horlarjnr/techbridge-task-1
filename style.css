@@ -4018,3 +4018,261 @@ html[data-theme="light"] .db {
 .db [hidden] {
     display: none !important;
 }
+
+
+/* ---------- Task 7: API connection, states and task management ---------- */
+
+.db-welcome {
+    grid-template-columns: 1fr auto auto;
+}
+
+.db-api {
+    --api: var(--d-muted);
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--api);
+    border-radius: var(--radius-md);
+    background: var(--d-panel);
+}
+
+.db-api[data-state="online"] {
+    --api: var(--d-green);
+}
+
+.db-api[data-state="offline"] {
+    --api: #ef4444;
+}
+
+.db-api-dot {
+    flex: none;
+    width: .8rem;
+    height: .8rem;
+    border-radius: 50%;
+    background: var(--api);
+    box-shadow: 0 0 10px var(--api);
+}
+
+.db-api[data-state="checking"] .db-api-dot {
+    animation: db-blink 1s ease infinite;
+}
+
+@keyframes db-blink {
+    50% { opacity: .3; }
+}
+
+.db-api-t {
+    color: var(--d-text);
+    font-weight: 700;
+}
+
+.db-api-s {
+    font-size: .8rem;
+}
+
+.db-cur-btns {
+    display: grid;
+    gap: .6rem;
+    margin-top: auto;
+}
+
+.db-cur-btns .btn {
+    margin-top: 0;
+    justify-content: center;
+}
+
+.db-cur-btns .btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.db-state {
+    display: grid;
+    justify-items: center;
+    gap: .6rem;
+    padding: 2rem 1rem;
+    border: 1px dashed var(--d-border);
+    border-radius: var(--radius-sm);
+    text-align: center;
+}
+
+.db-state[hidden] {
+    display: none;
+}
+
+.db-state-err {
+    border-color: #ef4444;
+    background: color-mix(in srgb, #ef4444 8%, transparent);
+}
+
+.db-state-t {
+    color: var(--d-text);
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.db-state .btn {
+    margin-top: .4rem;
+}
+
+.db-spin {
+    width: 1.8rem;
+    height: 1.8rem;
+    border: 3px solid var(--d-border);
+    border-top-color: var(--d-green);
+    border-radius: 50%;
+    animation: db-turn .8s linear infinite;
+}
+
+@keyframes db-turn {
+    to { transform: rotate(360deg); }
+}
+
+.db-btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.db-btn-del {
+    display: grid;
+    place-items: center;
+    padding: .5rem;
+    color: var(--d-muted);
+}
+
+.db-btn-del:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+.db-reset code,
+.db-dialog code {
+    padding: .1rem .35rem;
+    border-radius: .3rem;
+    background: var(--d-soft);
+    color: var(--d-text);
+    font-size: .85em;
+}
+
+.db-qa {
+    display: grid;
+    gap: .6rem;
+}
+
+.db-qa-i {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    padding: .7rem .8rem;
+    border: 1px solid var(--d-border);
+    border-radius: var(--radius-sm);
+    background: var(--d-soft);
+    color: var(--d-muted);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.db-qa-i:hover {
+    border-color: var(--d-purple);
+}
+
+.db-qa-ic {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: .7rem;
+    background: color-mix(in srgb, var(--d-purple) 22%, transparent);
+    color: var(--d-text);
+}
+
+.db-qa-t {
+    display: grid;
+    flex: 1;
+    font-size: .8rem;
+}
+
+.db-qa-t strong {
+    color: var(--d-text);
+    font-size: .92rem;
+}
+
+.db-qa-i .ico {
+    color: var(--d-blue);
+}
+
+.db-toast-err {
+    border-color: #ef4444;
+}
+
+.db-ta {
+    resize: vertical;
+}
+
+.db-form-err {
+    color: #f87171;
+    font-size: .85rem;
+}
+
+.db-form-err[hidden] {
+    display: none;
+}
+
+.db-del-btns {
+    display: flex;
+    gap: .75rem;
+}
+
+.db-del-btns .btn {
+    flex: 1;
+}
+
+.db-danger {
+    border: 1px solid #ef4444;
+    background: #ef4444;
+    color: #fff;
+}
+
+.db-dialog-w {
+    width: min(38rem, calc(100% - 2rem));
+}
+
+.db-table-wrap {
+    overflow-x: auto;
+}
+
+.db-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .85rem;
+}
+
+.db-table th,
+.db-table td {
+    padding: .55rem .6rem;
+    border-bottom: 1px solid var(--d-border);
+    text-align: left;
+}
+
+.db-table th {
+    color: var(--d-text);
+}
+
+@media (max-width: 1180px) {
+    .db-welcome {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .db-hello {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 900px) {
+    .db-welcome {
+        grid-template-columns: 1fr;
+    }
+}

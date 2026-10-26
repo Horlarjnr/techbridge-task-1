@@ -2,7 +2,7 @@
 
 The website for **TechBridge**, a learning initiative by **Baselink Services Limited**. TechBridge offers practical training in **Data Analytics** and **Web Development**, plus a **30-Day Practical Internship** that ends with a recommendation letter, based on participation and performance.
 
-The site is a static build in plain HTML5 and CSS3, with vanilla JavaScript on the Internship Tasks page (Task 4), the Challenge Hub (Task 5) and the Intern Dashboard (Task 6). It has no frameworks, no build step and no dependencies.
+The website is a static build in plain HTML5 and CSS3, with vanilla JavaScript on the Internship Tasks page (Task 4), the Challenge Hub (Task 5) and the Intern Dashboard (Task 6). Task 7 adds a small Node.js + Express backend that the dashboard talks to. It has no frameworks, no build step and no dependencies.
 
 ## Pages
 
@@ -12,9 +12,9 @@ The site is a static build in plain HTML5 and CSS3, with vanilla JavaScript on t
 | Programs (Task 2) | `programs.html` | Explains the two programs, their skills and how they differ, with a clear next step |
 | Internship Tasks (Tasks 3 and 4) | `internship-tasks.html` | Shows the 30-day internship as an interactive roadmap. Visitors switch between the Data Analytics and Web Development tracks to see the 8 tasks of each |
 | Challenge Hub (Task 5) | `challenges.html` | A searchable, filterable collection of practical challenges for both tracks, with a details panel for each |
-| Intern Dashboard (Task 6) | `dashboard.html` | A personal dashboard with progress tracking, a task tracker, an internship countdown, a Technology Explorer and an editable profile |
+| Intern Dashboard (Tasks 6 and 7) | `dashboard.html` | Progress overview, task tracker connected to the backend API, Technology Explorer, quick actions and profile |
 
-The first four pages share the same navbar, buttons, typography, colours and footer, so they read as one website. The dashboard uses the same fonts, buttons and brand colours, but has its own top bar and sidebar because it is an app-style page.
+All pages share the same navbar, buttons, typography, colours and footer, so they read as one website.
 
 ---
 
@@ -242,83 +242,145 @@ All the code is in `challenges.js`.
 
 ## Task 6: Intern Dashboard
 
-The Intern Dashboard answers: **"How am I doing, and what should I work on next?"** It is a separate page, `dashboard.html`, with its own script, `dashboard.js`. An intern can see their progress at a glance, mark tasks as completed, filter and search their tasks, explore modern web technologies and edit their display name, all without the page reloading. Progress is saved in the browser with Local Storage, so it is still there after a refresh.
+The Intern Dashboard (`dashboard.html`, with `dashboard.js`) gives an intern one place to see their progress, manage their tasks and explore modern web technologies.
 
-### Sections
+- **Overview:** a welcome message, the internship status, a countdown (Oct 1 to Oct 31, 2026) and a progress card with a bar.
+- **Task tracker:** task cards with Completed, In Progress and Not Started styles, status filters, search, View Task details and Mark as Completed.
+- **Technology Explorer:** Next.js, Vue.js, Angular and Backend, with the six backend technologies and a Learn More link for each.
+- **Extras:** a dark and light theme toggle, notifications, a profile card with sample data, a collapsible sidebar on small screens and a Continue Task button.
+- **Scale:** the page is shown at 80% size on screens wider than 900px, so it fits more on screen.
 
-| Section | Anchor | Description |
-| --- | --- | --- |
-| Top bar | n/a | Logo, dark and light theme switch, notifications bell and the intern's name (plus a menu button on small screens) |
-| Sidebar | n/a | Links to Overview, My Tasks, Technology Explorer, Challenge Hub and Profile, plus an "Explore Challenges" card |
-| Welcome | `#overview` | "Welcome back" message with the intern's name, role, internship status and the countdown card |
-| Internship Progress | n/a | A progress bar, the percentage and four counters: Total Tasks, Completed, Remaining and Progress |
-| Current Task | n/a | The task the intern is on now, with a "Continue Task" button |
-| My Tasks | `#tasks` | The task tracker: status filters, a search field and one row per task |
-| Challenge Hub card | n/a | Shows "8 Challenges Available" and links to `challenges.html` |
-| Technology Explorer | `#tech` | Pick a technology to read what it is and what it is used for |
-| Profile | `#profile` | Name, role, track, status and join date, with an "Edit Profile" button |
-| Footer | n/a | Copyright and Privacy, Terms and Support links |
+---
 
-### The dashboard tasks
+## Task 7: Task Management API
 
-Tasks 1 to 6 follow the order in which the TechBridge project was built, and Tasks 7 and 8 are sample tasks so the tracker always has something left to do. This list is for the dashboard only and is separate from the official roadmap on the Internship Tasks page.
+In Task 7 the dashboard stops using hardcoded task data. A **Node.js + Express** backend stores the tasks in `backend/data/tasks.json`, and the dashboard loads and updates them with `fetch()`:
 
-| Task | Title | Day | Starting status |
+```
+Dashboard (browser)  <-- fetch() -->  Express API (localhost:3000)  <-->  backend/data/tasks.json
+```
+
+### Prerequisites
+
+- **Node.js** (the LTS version from nodejs.org). Check it with `node -v` and `npm -v`.
+- A browser, and optionally VS Code with the Live Server extension.
+
+### Install and start the backend
+
+Run these commands inside the `backend` folder:
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+You should see `TechBridge API running at http://localhost:3000`. Leave that terminal open while you use the dashboard.
+
+### Open the dashboard
+
+Use either option:
+
+1. **From the backend:** open `http://localhost:3000/dashboard.html`. The server also serves the website files, so the site and API share one address.
+2. **With Live Server:** keep the backend running, then open `dashboard.html` with Live Server (for example `http://127.0.0.1:5500/dashboard.html`). The dashboard automatically sends its requests to `http://localhost:3000`.
+
+### API endpoints
+
+The task status values are `completed`, `progress` and `notstarted`.
+
+| Method | Endpoint | What it does | Success |
 | --- | --- | --- | --- |
-| 01 | TechBridge Landing Page | 1 | Completed |
-| 02 | Programs Page | 4 | Completed |
-| 03 | Internship Tasks Page | 8 | Completed |
-| 04 | Interactive Task Tracker | 11 | Completed |
-| 05 | Challenge Hub | 15 | Completed |
-| 06 | Intern Dashboard | 19 | In Progress |
-| 07 | Interactive Web Experience | 22 | Not Started |
-| 08 | Final Project | 26 | Not Started |
+| GET | `/api/tasks` | Returns all tasks | 200 |
+| GET | `/api/tasks/:id` | Returns one task | 200 |
+| PUT | `/api/tasks/:id` | Updates a task's status | 200 |
+| POST | `/api/tasks` | Adds a new task (optional) | 201 |
+| DELETE | `/api/tasks/:id` | Deletes a task (optional) | 200 |
+| GET | `/api/health` | Checks that the backend is running | 200 |
 
-Each task has a description, a list of skills and a list of deliverables, shown in a details dialog.
+**Example task (`GET /api/tasks/7`)**
 
-### The Technology Explorer
+```json
+{
+  "id": 7,
+  "title": "Build a Task Management API",
+  "description": "Create a REST API with Node.js and Express to manage tasks.",
+  "status": "progress",
+  "day": 22,
+  "icon": "code",
+  "skills": ["Node.js", "Express.js", "REST APIs", "fetch()"],
+  "deliverables": ["Express server", "tasks.json data file", "Dashboard connected to the API"]
+}
+```
 
-| Technology | Type |
+**Update a status (`PUT /api/tasks/7`)**
+
+```json
+{ "status": "completed" }
+```
+
+The response is the updated task. When a task is completed and no task is In Progress, the first Not Started task automatically becomes In Progress. The change is saved to `tasks.json`, so it survives a server restart.
+
+**Add a task (`POST /api/tasks`)**
+
+```json
+{ "title": "Write the README", "description": "Document the API." }
+```
+
+The new task gets the next free `id` and the status `notstarted`.
+
+**Error responses**
+
+| Situation | Status | Example message |
+| --- | --- | --- |
+| Task id is not a positive whole number | 400 | `{"error": "Task id must be a positive whole number."}` |
+| Task does not exist | 404 | `{"error": "Task 99 was not found."}` |
+| Invalid or missing status | 400 | `{"error": "Status must be one of: completed, progress, notstarted."}` |
+| Missing title or description when adding a task | 400 | `{"error": "Title is required and must be 80 characters or fewer."}` |
+| Request body is not valid JSON | 400 | `{"error": "The request body is not valid JSON."}` |
+| Tasks file cannot be read or written | 500 | `{"error": "Could not read the tasks data."}` |
+
+### Test the API
+
+- **Browser:** open `http://localhost:3000/api/tasks` and `http://localhost:3000/api/tasks/3`.
+- **Postman or Thunder Client:** send the requests in the table above. For `PUT` and `POST`, set the body type to JSON.
+- **Terminal:**
+
+```bash
+curl http://localhost:3000/api/tasks
+curl -X PUT -H "Content-Type: application/json" -d '{"status":"completed"}' http://localhost:3000/api/tasks/7
+```
+
+### What the dashboard does with the API
+
+| Action | Request |
 | --- | --- |
-| Next.js | Frontend framework |
-| Vue.js | Frontend framework |
-| Angular | Frontend framework |
-| Backend Development | Server and database. Opens a row of six small buttons: Node.js, Express.js, Django, Flask, Laravel and .NET |
+| Page opens | `GET /api/tasks` (shows "Loading tasks..." first) |
+| View Task | `GET /api/tasks/:id`, shown in a details dialog |
+| Mark as Completed | `PUT /api/tasks/:id`, then the list is reloaded from the server |
+| Add New Task | `POST /api/tasks` |
+| Delete (trash button) | `DELETE /api/tasks/:id` after a confirmation |
+| Connection indicator | `GET /api/health` every 8 seconds |
 
-Each technology has a short description, a "Commonly used for" list and a "Learn More" link to its official site, which opens in a new tab.
+- The screen changes only after the backend confirms a change. If an update fails, the page keeps showing the real data and an error message appears.
+- If the backend cannot be reached, the dashboard shows "Unable to load tasks" with a Retry button, and the indicator shows API Offline. It reconnects on its own when the backend comes back.
+- Task data is **not** stored in Local Storage any more, so it can never disagree with the backend. Local Storage is only used for the theme and the display name.
 
-### How the JavaScript works
+### Restore the original task data
 
-All the code is in `dashboard.js`, written in the same simple style as the earlier tasks.
+```bash
+cd backend
+npm run reset-data
+```
 
-| Concept | Where it is used |
+### Troubleshooting
+
+| Problem | What to do |
 | --- | --- |
-| Data | The `tasks` array, the `technologies` object and `internshipDates` hold all the content, so no task or technology is written by hand in the HTML |
-| State | The `state` object stores each task's status and the intern's name. `statusFilter`, `searchText` and `selectedTech` store what the visitor is looking at |
-| Local Storage | `loadState()` and `saveState()` keep progress and the name under `techbridge-dashboard-v1`. The theme is saved under `techbridge-theme`. Both are wrapped in `try/catch`, so the page still works if storage is blocked |
-| Progress calculations | `updateStats()` works out the completed count, the remaining count and the percentage, then updates the counters, the progress bar and the status label |
-| Current task | `getCurrentIndex()` picks the task that is In Progress, or else the first unfinished task |
-| Rendering | `renderTasks()` rebuilds the task rows. `renderTechList()` and `renderTechDetail()` rebuild the Technology Explorer |
-| Completing tasks | `completeTask()` marks a task as completed, moves the next Not Started task to In Progress, saves, updates the page and shows a message. When all 8 tasks are done, `celebrate()` shows a congratulations banner |
-| Dialogs | `openTask()` fills the task details dialog. The profile dialog edits the display name |
-| Countdown | `updateCountdown()` compares today's date with the internship start and end dates |
-| Theme | `applyTheme()` and `toggleTheme()` switch between dark and light |
-| Events | Click listeners on the filters, buttons, theme switch, bell and menu, an input listener on the search field, a keydown listener for Escape, and click listeners on the dialog backdrops |
-
-The rows and panels are built with `createElement` and `textContent`, so no raw HTML is inserted from the data.
-
-### Highlights
-- **Task tracker:** filter by All, Completed, In Progress or Not Started, and search by title or description. The filter and search work together, and a "Clear filters" button appears when nothing matches.
-- **Mark as Completed:** updates the progress bar, the counters, the current task and the status at once, with a short glow on the row and a message.
-- **Celebration:** a banner appears when all 8 tasks are completed. The "Reset progress" button returns everything to the starting state.
-- **Countdown:** shows the days left between 1 October 2026 and 31 October 2026, and changes to "Starts in..." before the start date and "Internship ended" after the end date.
-- **Dark and light themes:** dark is the default, and the choice is remembered. The colours come from CSS variables starting with `--d-`.
-- **Notifications:** the bell keeps the last five messages and shows a red dot when there is something new.
-- **Edit Profile:** changing the display name updates the welcome message, the top bar and the profile card, and the name is saved in the browser.
-- **Browser zoom:** the page is scaled to 80% of normal size on screens wider than 900px, so it looks right at 100% browser zoom. This is one rule in section 21 of `style.css` (`html:has(.db)`). Change `80%` to make the page larger or smaller.
-- **Accessibility:** a skip link, `aria-pressed` on the filter, theme and technology buttons, `aria-live` on the toast message and technology panel, a real `progressbar` role on the bar, visible focus outlines, native `<dialog>` panels that close with Escape or a click outside, and `prefers-reduced-motion` support. Visitors without JavaScript see a short message asking them to turn it on.
-- **Responsive:** the right-hand column drops below the main column at 1180px, the sidebar becomes a slide-in menu at 900px, and task rows, stats and dialogs adapt again at 600px, where the details dialog becomes a bottom sheet.
-- **Sample data:** the profile, task statuses and countdown are sample content saved only in the browser. The page is not connected to an account or a server.
+| `npm` or `node` is not recognised | Install Node.js, then open a new terminal |
+| Dashboard says "Unable to load tasks" | Start the backend with `npm start` inside `backend`, then press Retry |
+| `Port 3000 is already in use` | Close the other program using port 3000, or start with `PORT=3001 npm start` (on Windows PowerShell: `$env:PORT=3001; npm start`). Then change `API_BASE` in `dashboard.js` to match |
+| The page is blank or unstyled | Open it through `http://localhost:3000/dashboard.html` or Live Server, not by double-clicking the file |
+| The live website shows "API Offline" | Expected. A static host cannot run Node.js, so the backend only runs on your own computer |
 
 ---
 
@@ -328,7 +390,8 @@ The rows and panels are built with `createElement` and `textContent`, so no raw 
 - Pure-CSS mobile menu (hidden checkbox and label, no JavaScript)
 - Interactive two-track internship roadmap using vanilla JavaScript (Task 4)
 - Challenge Hub with track and difficulty filters, search and a details dialog (Task 5)
-- Intern Dashboard with progress tracking, a task tracker, Local Storage, a dark and light theme and a Technology Explorer (Task 6)
+- Intern Dashboard with progress tracking, a technology explorer and a dark and light theme (Task 6)
+- Task Management API built with Node.js and Express, connected to the dashboard (Task 7)
 - Smooth-scroll anchor navigation
 - Dark theme with green and purple accents, driven by CSS variables
 - Inline SVG icon sprite that inherits text colour
@@ -341,11 +404,18 @@ techbridge/
 ├── programs.html           # Programs page (Task 2)
 ├── internship-tasks.html   # Internship Tasks page (Tasks 3 and 4)
 ├── challenges.html         # Challenge Hub page (Task 5)
-├── dashboard.html          # Intern Dashboard page (Task 6)
+├── dashboard.html          # Intern Dashboard page (Tasks 6 and 7)
 ├── style.css               # All styles for all pages
 ├── script.js               # Track switching for the Internship Tasks page (Task 4)
 ├── challenges.js           # Filters, search and details dialog for the Challenge Hub (Task 5)
-├── dashboard.js            # Progress, task tracker, theme and Technology Explorer for the Dashboard (Task 6)
+├── dashboard.js            # Dashboard logic and API calls (Tasks 6 and 7)
+├── backend/                # Task Management API (Task 7)
+│   ├── server.js           # Express server and routes
+│   ├── package.json
+│   ├── reset-data.js       # Restores the original task data
+│   └── data/
+│       ├── tasks.json      # The task data used by the API
+│       └── tasks.default.json  # Copy of the original data
 ├── README.md
 └── assets/
     ├── icons/              # SVG icons, program tiles, and the three step icons (step-*.png)
@@ -472,7 +542,7 @@ The Intern Dashboard has its own navigation. The logo links to `index.html`, the
 18. Internship Tasks page, Task 3 version (hero styles using the `it-` prefix, plus the original zig-zag roadmap using `rm-`)
 19. Interactive internship roadmap, Task 4 (track selector and roadmap list, using `tk-` and `d-` class prefixes)
 20. Challenge Hub, Task 5 (hero, filters, challenge cards and details dialog, using the `ch-` class prefix)
-21. Intern Dashboard, Task 6 (page scale, theme colours, top bar, sidebar, cards, task tracker, Technology Explorer and dialogs, using the `db-` class prefix)
+21. Intern Dashboard, Tasks 6 and 7 (layout, task rows, API status card, dialogs and the dark and light theme, using the `db-` class prefix)
 
 **Breakpoints:** 1023px (tablet grids), 900px (hamburger menu, single column) and 600px (mobile). The dashboard also uses 1180px, where its right-hand column moves below the main column.
 
@@ -496,18 +566,11 @@ The Intern Dashboard has its own navigation. The logo links to `index.html`, the
 - Searching for text that matches nothing shows "No challenges found", and "Reset filters" brings every challenge back.
 - Every "View Challenge" button opens the correct details, and the panel closes with the X button, the Escape key or a click outside it.
 - The Challenge Hub works on desktop, tablet and mobile, with no horizontal scrolling.
-- The dashboard loads with 5 of 8 tasks completed, 62.5% progress, 3 tasks remaining and Task 6 as the current task.
-- "Mark as Completed" updates the progress bar, the counters, the current task and the status, and the next Not Started task becomes In Progress.
-- Completing all 8 tasks shows the congratulations banner, and "Reset progress" returns the dashboard to its starting state.
-- The status filters and the search field work on their own and together, and "Clear filters" restores the full list.
-- Refreshing the page keeps the saved progress, the display name and the chosen theme.
-- The dark and light theme switch changes the whole page, and both themes are readable.
-- "View Task" and "Continue Task" open the correct task details, and the dialog closes with the X button, the Escape key or a click outside it.
-- Every Technology Explorer button shows the right details, the Backend button shows the six backend buttons, and "Learn More" opens the official site in a new tab.
-- "Edit Profile" changes the name in the welcome message, the top bar and the profile card.
-- The countdown shows the correct number of days left for the internship dates.
-- The dashboard works on desktop, tablet and mobile with no horizontal scrolling, and the sidebar menu opens and closes on small screens.
-- The dashboard looks the same at 100% browser zoom as the rest of the site's layout at about 80%, and the console shows no JavaScript errors.
+- The backend starts with `npm start`, and `/api/tasks`, `/api/tasks/:id` and `/api/tasks/:id` (PUT) return the expected data and error codes.
+- The dashboard shows a loading message, then the 8 tasks from the API, with progress calculated from them.
+- View Task loads the task from the API, and Mark as Completed updates the progress and is still there after refreshing and after restarting the server.
+- With the backend stopped, the dashboard shows "Unable to load tasks" and a Retry button, and it recovers when the backend is started again.
+- Adding and deleting a task work and are saved in `tasks.json`.
 
 ## Browser Support
 
@@ -515,7 +578,7 @@ Works in current versions of Chrome, Edge, Firefox and Safari. The site uses `ma
 
 ## Deployment
 
-Because the site is fully static, it can be hosted anywhere that serves files, including GitHub Pages, Netlify, Vercel and Cloudflare Pages. Point the host at the project root with no build command.
+The website files are fully static, it can be hosted anywhere that serves files, including GitHub Pages, Netlify, Vercel and Cloudflare Pages. Point the host at the project root with no build command. The `backend` folder (Node.js) cannot run on those hosts, so on a deployed site the dashboard shows "API Offline". To use the dashboard with live data, run the backend on your own computer, or deploy it to a Node.js host and update `API_BASE` in `dashboard.js`.
 
 ## License
 

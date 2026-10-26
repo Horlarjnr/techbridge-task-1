@@ -1,39 +1,16 @@
-// TechBridge Task 6: Intern Dashboard.
-// Vanilla JavaScript. Progress is saved in this browser only (Local Storage).
+// TechBridge Task 7: Intern Dashboard connected to the Task Management API.
+// Tasks now come from the backend (Node.js + Express) using fetch().
+// Local Storage is only used for the theme and the display name, never for task data.
 
-// ---------- Data ----------
+// ---------- Settings ----------
 
 const internshipDates = { start: "2026-10-01", end: "2026-10-31" };
 const storageKey = "techbridge-dashboard-v1";
 const themeKey = "techbridge-theme";
 
-// Sample content: tasks 1-6 follow the real project, tasks 7-8 are sample tasks
-const tasks = [
-    { number: 1, day: 1, icon: "home", status: "completed", title: "TechBridge Landing Page",
-      description: "Create a responsive landing page for TechBridge with a clean and modern design.",
-      skills: ["HTML", "CSS", "Responsive design"], deliverables: ["Homepage", "Mobile menu", "Footer"] },
-    { number: 2, day: 4, icon: "grid", status: "completed", title: "Programs Page",
-      description: "Build the Data Analytics and Web Development programs page with detailed information.",
-      skills: ["HTML", "CSS layout", "Cards and sections"], deliverables: ["Programs page", "Program cards", "Comparison section"] },
-    { number: 3, day: 8, icon: "doc", status: "completed", title: "Internship Tasks Page",
-      description: "Create the internship tasks page with the 8-task roadmap.",
-      skills: ["CSS Grid", "Timeline layout", "Difficulty labels"], deliverables: ["Roadmap page", "8 task cards"] },
-    { number: 4, day: 11, icon: "bolt", status: "completed", title: "Interactive Task Tracker",
-      description: "Build the interactive task tracker with filtering and task details.",
-      skills: ["JavaScript arrays and objects", "DOM manipulation", "Event listeners"], deliverables: ["Two-track roadmap", "Track switcher"] },
-    { number: 5, day: 15, icon: "trophy", status: "completed", title: "Challenge Hub",
-      description: "Create the challenge hub with filters and detailed challenge views.",
-      skills: ["Filtering and search", "Dialogs", "Dynamic rendering"], deliverables: ["Challenge cards", "Filters and search", "Details panel"] },
-    { number: 6, day: 19, icon: "dash", status: "progress", title: "Intern Dashboard",
-      description: "Build the interactive intern dashboard with progress tracking and technology explorer.",
-      skills: ["State management", "Local Storage", "Progress calculations"], deliverables: ["Progress overview", "Task tracker", "Technology Explorer"] },
-    { number: 7, day: 22, icon: "code", status: "notstarted", title: "Interactive Web Experience",
-      description: "Build a JavaScript-powered interface with functional controls and dynamic content.",
-      skills: ["DOM manipulation", "Event handling", "Debugging"], deliverables: ["Interactive interface", "Working controls"] },
-    { number: 8, day: 26, icon: "rocket", status: "notstarted", title: "Final Project",
-      description: "Complete the final project and submit your work.",
-      skills: ["Planning", "Combining components", "Testing"], deliverables: ["Finished project", "Submission"] }
-];
+// On http://localhost:3000 the API is on the same address.
+// On any other address (for example Live Server on port 5500) it is on port 3000.
+const API_BASE = window.location.port === "3000" ? "" : "http://localhost:3000";
 
 const statusLabels = { completed: "Completed", progress: "In Progress", notstarted: "Not Started" };
 
@@ -78,16 +55,23 @@ const mainTechnologies = ["nextjs", "vue", "angular", "backend"];
 
 // ---------- State and elements ----------
 
-let state = { statuses: tasks.map(function (task) { return task.status; }), name: "Olayemi Motin" };
+let tasks = [];                 // task data from the API
+let loadState = "loading";      // "loading", "ready" or "error"
+let apiOnline = null;           // true, false, or null (not checked yet)
+let userName = "Olayemi Motin";
 let statusFilter = "all";
 let searchText = "";
 let selectedTech = "nextjs";
 let notifications = [];
+let pendingDeleteId = null;
 
 const el = function (id) { return document.getElementById(id); };
 const list = el("db-list");
 const taskDialog = el("db-task-dialog");
 const profileDialog = el("db-prof-dialog");
+const addDialog = el("db-add-dialog");
+const deleteDialog = el("db-del-dialog");
+const docsDialog = el("db-docs-dialog");
 
 // ---------- Helpers ----------
 
@@ -107,75 +91,125 @@ function icon(name, size) {
 
 function pad(number) { return String(number).padStart(2, "0"); }
 
-// ---------- Saving and loading ----------
+// ---------- Talking to the API ----------
 
-function loadState() {
+// Sends a request to the backend and returns the JSON answer.
+// If the server answers with an error, or cannot be reached, it throws an Error.
+async function request(path, options) {
+    let response;
     try {
-        const saved = JSON.parse(localStorage.getItem(storageKey));
-        if (saved && Array.isArray(saved.statuses) && saved.statuses.length === tasks.length &&
-            saved.statuses.every(function (s) { return statusLabels[s]; })) {
-            state.statuses = saved.statuses;
-        }
-        if (saved && typeof saved.name === "string" && saved.name.trim()) {
-            state.name = saved.name.trim().slice(0, 40);
-        }
+        response = await fetch(API_BASE + path, options);
+    } catch (networkError) {
+        throw new Error("Cannot reach the backend. Is the server running?");
+    }
+
+    let data = null;
+    try {
+        data = await response.json();
+    } catch (parseError) {
+        // The answer had no JSON body
+    }
+
+    if (!response.ok) {
+        const message = data && data.error ? data.error : "Request failed (" + response.status + ")";
+        throw new Error(message);
+    }
+    return data;
+}
+
+function sendJson(method, body) {
+    return { method: method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) };
+}
+
+// GET /api/tasks : load all tasks and show them
+async function loadTasks() {
+    loadState = "loading";
+    renderAll();
+    try {
+        tasks = await request("/api/tasks");
+        loadState = "ready";
+        setApiStatus(true);
     } catch (error) {
-        // Missing or invalid data: keep the defaults
+        tasks = [];
+        loadState = "error";
+        setApiStatus(false);
+    }
+    renderAll();
+}
+
+// GET /api/health : is the backend running right now?
+async function checkHealth() {
+    try {
+        await request("/api/health");
+        setApiStatus(true);
+        // The backend came back after an error: load the tasks again
+        if (loadState === "error") loadTasks();
+    } catch (error) {
+        setApiStatus(false);
     }
 }
 
-function saveState() {
-    try {
-        localStorage.setItem(storageKey, JSON.stringify(state));
-    } catch (error) {
-        // Storage may be blocked: the dashboard still works for this visit
-    }
+function setApiStatus(online) {
+    apiOnline = online;
+    const card = el("db-api");
+    card.dataset.state = online ? "online" : "offline";
+    el("db-api-t").textContent = online ? "API Connected" : "API Offline";
+    el("db-api-s").textContent = online ? "Backend Status: Connected" : "Backend Status: Offline";
 }
 
 // ---------- Progress ----------
 
 function countDone() {
-    return state.statuses.filter(function (s) { return s === "completed"; }).length;
+    return tasks.filter(function (task) { return task.status === "completed"; }).length;
 }
 
 function updateStats() {
-    const done = countDone();
+    const ready = loadState === "ready";
     const total = tasks.length;
-    const percent = Math.round((done / total) * 1000) / 10;
-    const text = percent + "%";
+    const done = countDone();
+    const percent = total === 0 ? 0 : Math.round((done / total) * 1000) / 10;
+    const text = ready ? percent + "%" : "\u2014";
 
-    el("st-total").textContent = total;
-    el("st-done").textContent = done;
-    el("st-left").textContent = total - done;
+    el("st-total").textContent = ready ? total : "\u2014";
+    el("st-done").textContent = ready ? done : "\u2014";
+    el("st-left").textContent = ready ? total - done : "\u2014";
     el("st-pct").textContent = text;
     el("db-bar-pct").textContent = text;
-    el("db-prog-text").textContent = done + " / " + total + " Tasks Completed";
-    el("db-fill").style.width = percent + "%";
-    el("db-bar").setAttribute("aria-valuenow", String(percent));
+    el("db-prog-text").textContent = ready ? done + " / " + total + " Tasks Completed" : "Waiting for the backend";
+    el("db-fill").style.width = ready ? percent + "%" : "0%";
+    el("db-bar").setAttribute("aria-valuenow", String(ready ? percent : 0));
 
-    const status = done === total ? "Completed" : "In Progress";
+    const status = ready && total > 0 && done === total ? "Completed" : "In Progress";
     el("db-status").textContent = "Internship Status: " + status;
     el("db-prof-status").textContent = status;
     updateCurrentTask();
 }
 
 // The current task is the one In Progress, or else the first unfinished task
-function getCurrentIndex() {
-    let index = state.statuses.indexOf("progress");
-    if (index === -1) index = state.statuses.findIndex(function (s) { return s !== "completed"; });
-    return index;
+function getCurrentTask() {
+    const current = tasks.find(function (task) { return task.status === "progress"; });
+    return current || tasks.find(function (task) { return task.status !== "completed"; });
 }
 
 function updateCurrentTask() {
     const body = el("db-cur-body");
     const button = el("db-continue");
-    const index = getCurrentIndex();
     body.replaceChildren();
-    if (index === -1) {
-        body.append(make("p", "db-cur-t", "All tasks completed 🎉"), make("p", "db-cur-d", "You've finished every internship task. Well done!"));
+
+    if (loadState !== "ready") {
+        body.append(make("p", "db-cur-t", "No task loaded"), make("p", "db-cur-d", "The current task appears here when the backend is connected."));
+        button.disabled = true;
+        return;
+    }
+    button.disabled = false;
+
+    const task = getCurrentTask();
+    if (!task) {
+        body.append(make("p", "db-cur-t", tasks.length === 0 ? "No tasks yet" : "All tasks completed \ud83c\udf89"),
+            make("p", "db-cur-d", tasks.length === 0 ? "Add a task to get started." : "You've finished every internship task. Well done!"));
         button.hidden = true;
     } else {
-        body.append(make("p", "db-cur-k", "Task " + tasks[index].number), make("p", "db-cur-t", tasks[index].title), make("p", "db-cur-d", tasks[index].description));
+        body.append(make("p", "db-cur-k", "Task " + task.id), make("p", "db-cur-t", task.title), make("p", "db-cur-d", task.description));
         button.hidden = false;
     }
 }
@@ -184,88 +218,147 @@ function updateCurrentTask() {
 
 function getVisibleTasks() {
     const query = searchText.toLowerCase().trim();
-    return tasks.filter(function (task, index) {
-        const status = state.statuses[index];
-        const statusOk = statusFilter === "all" || status === statusFilter;
+    return tasks.filter(function (task) {
+        const statusOk = statusFilter === "all" || task.status === statusFilter;
         const searchOk = (task.title + " " + task.description).toLowerCase().includes(query);
         return statusOk && searchOk;
     });
 }
 
 function createRow(task) {
-    const index = task.number - 1;
-    const status = state.statuses[index];
-    const item = make("li", "db-row db-" + status);
-    item.id = "task-" + task.number;
+    const item = make("li", "db-row db-" + task.status);
+    item.id = "task-" + task.id;
 
     const body = make("div", "db-row-body");
     body.append(make("p", "db-row-t", task.title), make("p", "db-row-d", task.description));
 
-    const pill = make("span", "db-st db-st-" + status, statusLabels[status]);
+    const pill = make("span", "db-st db-st-" + task.status, statusLabels[task.status]);
     const actions = make("div", "db-row-act");
 
-    if (status !== "completed") {
+    if (task.status !== "completed") {
         const done = make("button", "db-btn db-btn-done", "Mark as Completed");
         done.type = "button";
-        done.addEventListener("click", function () { completeTask(index); });
+        done.addEventListener("click", function () { completeTask(task.id, done); });
         actions.appendChild(done);
     }
     const view = make("button", "db-btn", "View Task \u2192");
     view.type = "button";
-    view.addEventListener("click", function () { openTask(index); });
+    view.addEventListener("click", function () { openTask(task.id); });
     actions.appendChild(view);
 
-    item.append(make("span", "db-num", pad(task.number)), icon(task.icon, 22), body, pill, actions);
+    const remove = make("button", "db-btn db-btn-del");
+    remove.type = "button";
+    remove.setAttribute("aria-label", "Delete task " + task.title);
+    remove.innerHTML = '<svg width="18" height="18" aria-hidden="true"><use href="#t-trash"></use></svg>';
+    remove.addEventListener("click", function () { askDelete(task); });
+    actions.appendChild(remove);
+
+    item.append(make("span", "db-num", pad(task.id)), icon(task.icon || "doc", 22), body, pill, actions);
     return item;
 }
 
+// Shows the loading, error or empty message instead of the list
+function renderState() {
+    const box = el("db-state");
+    box.replaceChildren();
+    box.className = "db-state";
+
+    if (loadState === "loading") {
+        box.append(make("span", "db-spin"), make("p", "", "Loading tasks..."));
+        box.hidden = false;
+    } else if (loadState === "error") {
+        box.classList.add("db-state-err");
+        box.append(make("p", "db-state-t", "Unable to load tasks"),
+            make("p", "", "The backend is not responding. Start the server (npm start inside the backend folder), then try again."));
+        const retry = make("button", "btn btn-primary", "Retry");
+        retry.type = "button";
+        retry.addEventListener("click", loadTasks);
+        box.appendChild(retry);
+        box.hidden = false;
+    } else if (tasks.length === 0) {
+        box.append(make("p", "db-state-t", "No tasks yet"), make("p", "", "The API returned an empty list. Use Add New Task to create one."));
+        box.hidden = false;
+    } else {
+        box.hidden = true;
+    }
+}
+
 function renderTasks() {
-    const visible = getVisibleTasks();
+    renderState();
     list.replaceChildren();
+
+    const showList = loadState === "ready" && tasks.length > 0;
+    const visible = showList ? getVisibleTasks() : [];
     visible.forEach(function (task) { list.appendChild(createRow(task)); });
-    el("db-empty").hidden = visible.length > 0;
+    el("db-empty").hidden = !(showList && visible.length === 0);
+
     document.querySelectorAll("[data-filter]").forEach(function (button) {
         button.setAttribute("aria-pressed", String(button.dataset.filter === statusFilter));
     });
 }
 
-// ---------- Completing tasks ----------
-
-function completeTask(index) {
-    const wasAllDone = countDone() === tasks.length;
-    state.statuses[index] = "completed";
-
-    // Keep one task In Progress: promote the next Not Started task
-    if (state.statuses.indexOf("progress") === -1) {
-        const next = state.statuses.indexOf("notstarted");
-        if (next !== -1) state.statuses[next] = "progress";
-    }
-
-    saveState();
+function renderAll() {
     updateStats();
     renderTasks();
-    const row = el("task-" + tasks[index].number);
-    if (row) row.classList.add("db-just");
+}
 
-    showToast("Task " + tasks[index].number + " completed: " + tasks[index].title);
-    if (!wasAllDone && countDone() === tasks.length) celebrate();
+// ---------- Changing tasks through the API ----------
+
+// PUT /api/tasks/:id : the screen changes only after the backend says OK
+async function completeTask(id, button) {
+    const wasAllDone = tasks.length > 0 && countDone() === tasks.length;
+    const task = tasks.find(function (item) { return item.id === id; });
+    if (button) button.disabled = true;
+
+    try {
+        await request("/api/tasks/" + id, sendJson("PUT", { status: "completed" }));
+        tasks = await request("/api/tasks");   // reload, so the list matches the server
+        setApiStatus(true);
+        renderAll();
+        const row = el("task-" + id);
+        if (row) row.classList.add("db-just");
+        showToast("Task " + id + " completed: " + task.title);
+        if (!wasAllDone && countDone() === tasks.length) celebrate();
+    } catch (error) {
+        // Nothing was changed on screen, so the page still matches the server
+        if (button) button.disabled = false;
+        showToast("Could not update the task. " + error.message, true);
+        if (error.message.indexOf("Cannot reach") === 0) setApiStatus(false);
+    }
+}
+
+// POST /api/tasks : add a new task
+async function addTask(title, description) {
+    await request("/api/tasks", sendJson("POST", { title: title, description: description }));
+    tasks = await request("/api/tasks");
+    renderAll();
+    showToast("Task added: " + title);
+}
+
+// DELETE /api/tasks/:id : remove a task
+async function removeTask(id) {
+    await request("/api/tasks/" + id, { method: "DELETE" });
+    tasks = await request("/api/tasks");
+    renderAll();
+    showToast("Task " + id + " deleted.");
 }
 
 function celebrate() {
     el("db-cele").hidden = false;
     el("db-cele").classList.add("db-cele-go");
-    showToast("All 8 tasks completed. Congratulations!");
+    showToast("All tasks completed. Congratulations!");
 }
 
 // ---------- Notifications ----------
 
 let toastTimer;
-function showToast(message) {
+function showToast(message, isError) {
     const toast = el("db-toast");
     toast.textContent = message;
+    toast.classList.toggle("db-toast-err", Boolean(isError));
     toast.hidden = false;
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toast.hidden = true; }, 3500);
+    toastTimer = setTimeout(function () { toast.hidden = true; }, 4000);
 
     notifications.unshift(message);
     notifications = notifications.slice(0, 5);
@@ -277,9 +370,16 @@ function showToast(message) {
 
 // ---------- Task details dialog ----------
 
-function openTask(index) {
-    const task = tasks[index];
-    const status = state.statuses[index];
+// GET /api/tasks/:id : load one task and show it
+async function openTask(id) {
+    let task;
+    try {
+        task = await request("/api/tasks/" + id);
+    } catch (error) {
+        showToast("Could not load the task. " + error.message, true);
+        return;
+    }
+
     const box = el("db-task-in");
     box.replaceChildren();
 
@@ -292,7 +392,8 @@ function openTask(index) {
     const title = make("h3", "", task.title);
     title.id = "db-task-title";
     const meta = make("p", "db-d-meta");
-    meta.append(make("span", "db-num", "Task " + pad(task.number)), make("span", "db-st db-st-" + status, statusLabels[status]), make("span", "", "Scheduled: Day " + pad(task.day)));
+    meta.append(make("span", "db-num", "Task " + pad(task.id)), make("span", "db-st db-st-" + task.status, statusLabels[task.status]));
+    if (task.day) meta.appendChild(make("span", "", "Scheduled: Day " + pad(task.day)));
 
     function block(heading, items) {
         const section = make("section", "db-d-box");
@@ -305,24 +406,55 @@ function openTask(index) {
 
     const about = make("section", "db-d-box");
     about.append(make("h4", "", "Overview"), make("p", "", task.description));
-    box.append(close, title, meta, about, block("Skills", task.skills), block("What you'll produce", task.deliverables));
+    box.append(close, title, meta, about);
+    if (task.skills && task.skills.length) box.appendChild(block("Skills", task.skills));
+    if (task.deliverables && task.deliverables.length) box.appendChild(block("What you'll produce", task.deliverables));
 
-    if (status !== "completed") {
+    if (task.status !== "completed") {
         const done = make("button", "btn btn-primary", "Mark as Completed");
         done.type = "button";
-        done.addEventListener("click", function () { taskDialog.close(); completeTask(index); });
+        done.addEventListener("click", function () { taskDialog.close(); completeTask(task.id); });
         box.appendChild(done);
     }
     taskDialog.showModal();
 }
 
 function continueTask() {
-    const index = getCurrentIndex();
-    if (index === -1) {
+    const task = getCurrentTask();
+    if (!task) {
         showToast("All tasks are completed. Nothing left to continue.");
         return;
     }
-    openTask(index);
+    openTask(task.id);
+}
+
+// ---------- Delete confirmation ----------
+
+function askDelete(task) {
+    pendingDeleteId = task.id;
+    el("db-del-text").textContent = "\u201c" + task.title + "\u201d will be removed from the task list.";
+    deleteDialog.showModal();
+}
+
+// ---------- Display name (Local Storage, not task data) ----------
+
+function loadName() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(storageKey));
+        if (saved && typeof saved.name === "string" && saved.name.trim()) {
+            userName = saved.name.trim().slice(0, 40);
+        }
+    } catch (error) {
+        // Keep the default name
+    }
+}
+
+function saveName() {
+    try {
+        localStorage.setItem(storageKey, JSON.stringify({ name: userName }));
+    } catch (error) {
+        // Storage may be blocked
+    }
 }
 
 // ---------- Technology Explorer ----------
@@ -458,9 +590,9 @@ function toggleTheme() {
 // ---------- Profile ----------
 
 function showName() {
-    el("db-name").textContent = state.name.split(" ")[0];
-    el("db-prof-name").textContent = state.name;
-    el("db-user-top").textContent = state.name;
+    el("db-name").textContent = userName.split(" ")[0];
+    el("db-prof-name").textContent = userName;
+    el("db-user-top").textContent = userName;
 }
 
 // ---------- Sidebar (mobile) ----------
@@ -493,16 +625,6 @@ el("db-clear").addEventListener("click", function () {
 });
 
 el("db-continue").addEventListener("click", continueTask);
-
-el("db-reset").addEventListener("click", function () {
-    state.statuses = tasks.map(function (task) { return task.status; });
-    saveState();
-    el("db-cele").hidden = true;
-    updateStats();
-    renderTasks();
-    showToast("Progress has been reset.");
-});
-
 el("db-theme").addEventListener("click", toggleTheme);
 
 el("db-bell").addEventListener("click", function () {
@@ -535,37 +657,84 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
-[taskDialog, profileDialog].forEach(function (dialog) {
+// Close any dialog when the dark area around it is clicked
+[taskDialog, profileDialog, addDialog, deleteDialog, docsDialog].forEach(function (dialog) {
     dialog.addEventListener("click", function (event) {
         if (event.target === dialog) dialog.close();
     });
 });
 
+// Profile
 el("db-edit").addEventListener("click", function () {
-    el("db-name-in").value = state.name;
+    el("db-name-in").value = userName;
     profileDialog.showModal();
 });
 el("db-prof-x").addEventListener("click", function () { profileDialog.close(); });
 el("db-prof-form").addEventListener("submit", function () {
     const value = el("db-name-in").value.trim();
     if (value) {
-        state.name = value.slice(0, 40);
-        saveState();
+        userName = value.slice(0, 40);
+        saveName();
         showName();
     }
 });
 
+// Add a task
+el("db-add-open").addEventListener("click", function () {
+    el("db-add-form").reset();
+    el("db-add-err").hidden = true;
+    addDialog.showModal();
+});
+el("db-add-x").addEventListener("click", function () { addDialog.close(); });
+el("db-add-form").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const title = el("db-add-name").value.trim();
+    const description = el("db-add-desc").value.trim();
+    const error = el("db-add-err");
+
+    if (!title || !description) {
+        error.textContent = "Please enter a title and a description.";
+        error.hidden = false;
+        return;
+    }
+    el("db-add-save").disabled = true;
+    try {
+        await addTask(title, description);
+        addDialog.close();
+    } catch (problem) {
+        error.textContent = problem.message;
+        error.hidden = false;
+    }
+    el("db-add-save").disabled = false;
+});
+
+// Delete a task
+el("db-del-no").addEventListener("click", function () { deleteDialog.close(); });
+el("db-del-yes").addEventListener("click", async function () {
+    deleteDialog.close();
+    try {
+        await removeTask(pendingDeleteId);
+    } catch (error) {
+        showToast("Could not delete the task. " + error.message, true);
+    }
+});
+
+// API documentation
+el("db-docs-open").addEventListener("click", function () { docsDialog.showModal(); });
+el("db-docs-x").addEventListener("click", function () { docsDialog.close(); });
+
 // ---------- Start ----------
 
 function init() {
-    loadState();
+    loadName();
     loadTheme();
     showName();
     updateCountdown();
-    updateStats();
-    renderTasks();
     renderTechList();
     renderTechDetail();
+    loadTasks();
+    checkHealth();
+    setInterval(checkHealth, 8000);   // keep the Connected / Offline label up to date
 }
 
 init();
