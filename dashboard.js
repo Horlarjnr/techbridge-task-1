@@ -10,7 +10,7 @@ const themeKey = "techbridge-theme";
 
 // On http://localhost:3000 the API is on the same address.
 // On any other address (for example Live Server on port 5500) it is on port 3000.
-const API_BASE = window.location.port === "3000" ? "" : "http://localhost:3000";
+const API_BASE = window.TECHBRIDGE_API || "";
 
 const statusLabels = { completed: "Completed", progress: "In Progress", notstarted: "Not Started" };
 
@@ -235,6 +235,12 @@ function createRow(task) {
     const pill = make("span", "db-st db-st-" + task.status, statusLabels[task.status]);
     const actions = make("div", "db-row-act");
 
+    if (task.status === "notstarted") {
+        const start = make("button", "db-btn db-btn-start", "Start Task");
+        start.type = "button";
+        start.addEventListener("click", function () { startTask(task.id, start); });
+        actions.appendChild(start);
+    }
     if (task.status !== "completed") {
         const done = make("button", "db-btn db-btn-done", "Mark as Completed");
         done.type = "button";
@@ -268,7 +274,7 @@ function renderState() {
         box.hidden = false;
     } else if (loadState === "error") {
         box.classList.add("db-state-err");
-        box.append(make("p", "db-state-t", "Unable to load tasks"),
+        box.append(make("p", "db-state-t", "Unable to load tasks. Please try again."),
             make("p", "", "The backend is not responding. Start the server (npm start inside the backend folder), then try again."));
         const retry = make("button", "btn btn-primary", "Retry");
         retry.type = "button";
@@ -327,6 +333,23 @@ async function completeTask(id, button) {
     }
 }
 
+// PUT /api/tasks/:id : move a task from Not Started to In Progress
+async function startTask(id, button) {
+    const task = tasks.find(function (item) { return item.id === id; });
+    if (button) button.disabled = true;
+    try {
+        await request("/api/tasks/" + id, sendJson("PUT", { status: "progress" }));
+        tasks = await request("/api/tasks");
+        setApiStatus(true);
+        renderAll();
+        showToast("Task " + id + " started: " + task.title);
+    } catch (error) {
+        if (button) button.disabled = false;
+        showToast("Could not start the task. " + error.message, true);
+        if (error.message.indexOf("Cannot reach") === 0) setApiStatus(false);
+    }
+}
+
 // POST /api/tasks : add a new task
 async function addTask(title, description) {
     await request("/api/tasks", sendJson("POST", { title: title, description: description }));
@@ -366,6 +389,64 @@ function showToast(message, isError) {
     notes.replaceChildren();
     notifications.forEach(function (text) { notes.appendChild(make("li", "", text)); });
     el("db-dot").hidden = false;
+}
+
+// ---------- Search across tasks and challenges ----------
+
+let searchTimer;
+let searchRequest = 0;
+
+function closeSearch() {
+    el("db-gs-panel").hidden = true;
+}
+
+// GET /api/search?q=text : tasks and challenges that match
+async function runSearch(text) {
+    const panel = el("db-gs-panel");
+    const query = text.trim();
+    if (!query) {
+        closeSearch();
+        return;
+    }
+
+    const thisRequest = ++searchRequest;
+    panel.hidden = false;
+    panel.replaceChildren(make("p", "db-gs-msg", "Searching..."));
+
+    let result;
+    try {
+        result = await request("/api/search?q=" + encodeURIComponent(query));
+    } catch (error) {
+        if (thisRequest === searchRequest) panel.replaceChildren(make("p", "db-gs-msg", "Search failed. Please try again."));
+        return;
+    }
+    if (thisRequest !== searchRequest) return;   // a newer search is already running
+
+    panel.replaceChildren();
+    if (result.total === 0) {
+        panel.appendChild(make("p", "db-gs-msg", "No matching results found."));
+        return;
+    }
+
+    if (result.tasks.length > 0) {
+        panel.appendChild(make("p", "db-gs-h", "Tasks (" + result.tasks.length + ")"));
+        result.tasks.forEach(function (task) {
+            const item = make("button", "db-gs-i");
+            item.type = "button";
+            item.append(make("strong", "", "Task " + task.id + ": " + task.title), make("span", "", statusLabels[task.status]));
+            item.addEventListener("click", function () { closeSearch(); openTask(task.id); });
+            panel.appendChild(item);
+        });
+    }
+    if (result.challenges.length > 0) {
+        panel.appendChild(make("p", "db-gs-h", "Challenges (" + result.challenges.length + ")"));
+        result.challenges.forEach(function (challenge) {
+            const item = make("a", "db-gs-i");
+            item.href = "challenges.html?q=" + encodeURIComponent(challenge.title);
+            item.append(make("strong", "", challenge.title), make("span", "", challenge.difficulty + " \u00b7 " + (challenge.track === "analytics" ? "Data Analytics" : "Web Development")));
+            panel.appendChild(item);
+        });
+    }
 }
 
 // ---------- Task details dialog ----------
@@ -625,6 +706,15 @@ el("db-clear").addEventListener("click", function () {
 });
 
 el("db-continue").addEventListener("click", continueTask);
+
+el("db-gs").addEventListener("input", function (event) {
+    clearTimeout(searchTimer);
+    const text = event.target.value;
+    searchTimer = setTimeout(function () { runSearch(text); }, 250);
+});
+document.addEventListener("click", function (event) {
+    if (!el("db-gs-wrap").contains(event.target)) closeSearch();
+});
 el("db-theme").addEventListener("click", toggleTheme);
 
 el("db-bell").addEventListener("click", function () {
@@ -652,6 +742,7 @@ document.querySelectorAll(".db-nav").forEach(function (link) {
 });
 document.addEventListener("keydown", function (event) {
     if (event.key === "Escape") {
+        closeSearch();
         setSidebar(false);
         el("db-notes").hidden = true;
     }

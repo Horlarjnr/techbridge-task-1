@@ -6,8 +6,16 @@
     "status": "completed",
     "day": 1,
     "icon": "home",
-    "skills": ["HTML", "CSS", "Responsive design"],
-    "deliverables": ["Homepage", "Mobile menu", "Footer"]
+    "skills": [
+      "HTML",
+      "CSS",
+      "Responsive design"
+    ],
+    "deliverables": [
+      "Homepage",
+      "Mobile menu",
+      "Footer"
+    ]
   },
   {
     "id": 2,
@@ -16,8 +24,16 @@
     "status": "completed",
     "day": 4,
     "icon": "grid",
-    "skills": ["HTML", "CSS layout", "Cards and sections"],
-    "deliverables": ["Programs page", "Program cards", "Comparison section"]
+    "skills": [
+      "HTML",
+      "CSS layout",
+      "Cards and sections"
+    ],
+    "deliverables": [
+      "Programs page",
+      "Program cards",
+      "Comparison section"
+    ]
   },
   {
     "id": 3,
@@ -26,8 +42,15 @@
     "status": "completed",
     "day": 8,
     "icon": "doc",
-    "skills": ["CSS Grid", "Timeline layout", "Difficulty labels"],
-    "deliverables": ["Roadmap page", "8 task cards"]
+    "skills": [
+      "CSS Grid",
+      "Timeline layout",
+      "Difficulty labels"
+    ],
+    "deliverables": [
+      "Roadmap page",
+      "8 task cards"
+    ]
   },
   {
     "id": 4,
@@ -36,8 +59,15 @@
     "status": "completed",
     "day": 11,
     "icon": "bolt",
-    "skills": ["JavaScript arrays and objects", "DOM manipulation", "Event listeners"],
-    "deliverables": ["Two-track roadmap", "Track switcher"]
+    "skills": [
+      "JavaScript arrays and objects",
+      "DOM manipulation",
+      "Event listeners"
+    ],
+    "deliverables": [
+      "Two-track roadmap",
+      "Track switcher"
+    ]
   },
   {
     "id": 5,
@@ -46,8 +76,16 @@
     "status": "completed",
     "day": 15,
     "icon": "trophy",
-    "skills": ["Filtering and search", "Dialogs", "Dynamic rendering"],
-    "deliverables": ["Challenge cards", "Filters and search", "Details panel"]
+    "skills": [
+      "Filtering and search",
+      "Dialogs",
+      "Dynamic rendering"
+    ],
+    "deliverables": [
+      "Challenge cards",
+      "Filters and search",
+      "Details panel"
+    ]
   },
   {
     "id": 6,
@@ -56,27 +94,53 @@
     "status": "completed",
     "day": 19,
     "icon": "dash",
-    "skills": ["State management", "Progress calculations", "Technology Explorer"],
-    "deliverables": ["Progress overview", "Task tracker", "Technology Explorer"]
+    "skills": [
+      "State management",
+      "Progress calculations",
+      "Technology Explorer"
+    ],
+    "deliverables": [
+      "Progress overview",
+      "Task tracker",
+      "Technology Explorer"
+    ]
   },
   {
     "id": 7,
-    "title": "Build a Task Management API",
+    "title": "Build a TechBridge Task Management API",
     "description": "Create a REST API with Node.js and Express to manage tasks.",
-    "status": "progress",
+    "status": "completed",
     "day": 22,
     "icon": "code",
-    "skills": ["Node.js", "Express.js", "REST APIs", "fetch()"],
-    "deliverables": ["Express server", "tasks.json data file", "Dashboard connected to the API"]
+    "skills": [
+      "Node.js",
+      "Express.js",
+      "REST APIs",
+      "fetch()"
+    ],
+    "deliverables": [
+      "Express server",
+      "tasks.json data file",
+      "Dashboard connected to the API"
+    ]
   },
   {
     "id": 8,
-    "title": "Final Project",
-    "description": "Complete the final project and submit your work.",
-    "status": "notstarted",
+    "title": "Build the TechBridge Intern Management Platform",
+    "description": "Combine the Challenge Hub, Intern Dashboard and Task API into one complete platform, then deploy it.",
+    "status": "progress",
     "day": 26,
     "icon": "rocket",
-    "skills": ["Planning", "Combining components", "Testing"],
-    "deliverables": ["Finished project", "Submission"]
+    "skills": [
+      "Integration",
+      "Testing",
+      "Deployment"
+    ],
+    "deliverables": [
+      "Complete platform",
+      "README",
+      "GitHub repository",
+      "LinkedIn post"
+    ]
   }
 ]

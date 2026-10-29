@@ -1,7 +1,7 @@
 {
   "name": "techbridge-task-api",
   "version": "1.0.0",
-  "description": "Task Management API for the TechBridge Intern Dashboard (Task 7)",
+  "description": "Backend for the TechBridge Intern Management Platform (tasks, challenges and search API)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

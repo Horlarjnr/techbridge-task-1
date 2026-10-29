@@ -1,109 +1,15 @@
-// TechBridge Task 5: Challenge Hub.
+// TechBridge Challenge Hub (Task 5, connected to the API in Task 8).
+// Challenges are loaded from the backend with fetch().
 // Vanilla JavaScript: track filter, difficulty filter, search and a details dialog.
 
 // ---------- Data: one object per challenge ----------
 
-const challenges = [
-    {
-        id: 1, number: "01", day: 1, icon: "chart",
-        title: "Sales Performance Analysis", track: "analytics", difficulty: "Beginner",
-        description: "Analyze sales data, identify top-performing products, and summarize revenue trends.",
-        overview: "Analyze a small sales dataset and identify important trends. You'll clean the data, find useful insights and create a simple report.",
-        objectives: ["Clean and organise a small sales dataset", "Find the top-performing products and months", "Summarise revenue trends with charts"],
-        skills: ["Data cleaning", "Basic analysis", "Problem solving", "Communication"],
-        tools: ["Excel / Google Sheets", "Charts and graphs", "(Optional) SQL"],
-        deliverables: ["Cleaned dataset", "Key insights", "Visual charts", "Short report"],
-        duration: "3-5 hours",
-        result: "A clear analysis and visual summary of the sales data."
-    },
-    {
-        id: 2, number: "02", day: 4, icon: "user",
-        title: "Customer Insights Report", track: "analytics", difficulty: "Beginner",
-        description: "Examine customer records and identify purchasing patterns and customer segments.",
-        overview: "Study a set of customer records to understand who is buying, how often and what they buy, then group customers into useful segments.",
-        objectives: ["Explore customer records and spot patterns", "Group customers into clear segments", "Explain the findings in plain language"],
-        skills: ["Sorting and filtering", "Pivot Tables", "Pattern spotting", "Reporting"],
-        tools: ["Excel or Google Sheets"],
-        deliverables: ["Customer segmentation", "Key findings", "Summary report"],
-        duration: "3-4 hours",
-        result: "A short report showing the main customer groups and what they buy."
-    },
-    {
-        id: 3, number: "03", day: 8, icon: "dash",
-        title: "Business KPI Dashboard", track: "analytics", difficulty: "Intermediate",
-        description: "Create a dashboard that communicates important business metrics and trends.",
-        overview: "Choose the right business metrics and present them in a dashboard that a manager could understand at a glance.",
-        objectives: ["Choose meaningful KPIs for a business", "Build charts that show trends clearly", "Write short business insights"],
-        skills: ["Formulas and Pivot Tables", "Data visualization", "KPI selection", "Storytelling with data"],
-        tools: ["Excel", "Google Sheets", "A dashboard tool of your choice"],
-        deliverables: ["KPI dashboard", "Visualizations", "Summary of business insights"],
-        duration: "4-6 hours",
-        result: "A one-page dashboard that shows key metrics and what they mean."
-    },
-    {
-        id: 4, number: "04", day: 11, icon: "code",
-        title: "Developer Portfolio Website", track: "webDevelopment", difficulty: "Beginner",
-        description: "Build a responsive portfolio featuring projects, skills, and contact information.",
-        overview: "Create a personal portfolio that introduces you, shows your projects and skills, and makes it easy for people to contact you.",
-        objectives: ["Structure a page with semantic HTML", "Style a clean layout with CSS", "Make the site work on phones and desktops"],
-        skills: ["Semantic HTML", "CSS Flexbox and Grid", "Responsive design", "Git basics"],
-        tools: ["HTML", "CSS"],
-        deliverables: ["Responsive portfolio website", "Projects section", "Contact section"],
-        duration: "4-6 hours",
-        result: "A live, responsive portfolio you can share with employers."
-    },
-    {
-        id: 5, number: "05", day: 15, icon: "monitor",
-        title: "Product Landing Page", track: "webDevelopment", difficulty: "Beginner",
-        description: "Create a responsive product page with clear content sections and calls to action.",
-        overview: "Design a landing page for a product of your choice, with clear sections that guide visitors toward one action.",
-        objectives: ["Plan the sections of a landing page", "Write clear calls to action", "Keep the layout consistent on every screen size"],
-        skills: ["HTML structure", "CSS layout", "Typography and spacing", "Responsive design"],
-        tools: ["HTML", "CSS"],
-        deliverables: ["Complete landing page", "Responsive styling"],
-        duration: "3-5 hours",
-        result: "A polished landing page that looks good on desktop and mobile."
-    },
-    {
-        id: 6, number: "06", day: 19, icon: "gear",
-        title: "Interactive Web Experience", track: "webDevelopment", difficulty: "Intermediate",
-        description: "Build a small JavaScript-powered interface with functional controls and dynamic content.",
-        overview: "Build a small interface that reacts to the user, such as a quiz, a filterable list or a simple calculator, using vanilla JavaScript.",
-        objectives: ["Respond to clicks and input with JavaScript", "Update the page without reloading", "Organise data in arrays and objects"],
-        skills: ["DOM manipulation", "Event handling", "Arrays and objects", "Debugging"],
-        tools: ["HTML", "CSS", "Vanilla JavaScript"],
-        deliverables: ["Interactive interface", "Working controls", "Dynamically updated content"],
-        duration: "5-7 hours",
-        result: "A working interface that changes in response to what the user does."
-    },
-    {
-        id: 7, number: "07", day: 22, icon: "target",
-        title: "Customer Churn Analysis", track: "analytics", difficulty: "Advanced",
-        description: "Explore customer data to find why customers leave and recommend ways to keep them.",
-        overview: "Combine spreadsheet analysis and SQL to find the signs that a customer is likely to leave, and suggest what the business could do about it.",
-        objectives: ["Join related tables to build one clear view", "Compare customers who stayed and left", "Recommend ways to improve retention"],
-        skills: ["SQL joins and aggregations", "Data wrangling", "Segment comparison", "Presenting insights"],
-        tools: ["Excel or Google Sheets", "SQL"],
-        deliverables: ["Churn analysis", "Segment comparison", "Retention recommendations"],
-        duration: "6-8 hours",
-        result: "A clear explanation of why customers leave, with practical recommendations."
-    },
-    {
-        id: 8, number: "08", day: 26, icon: "check",
-        title: "Task Manager Web App", track: "webDevelopment", difficulty: "Advanced",
-        description: "Build a task manager that lets users add, complete, filter and save tasks in the browser.",
-        overview: "Build a small web app that keeps a list of tasks, lets users complete and filter them, and remembers them the next time the page opens.",
-        objectives: ["Plan the data and features of a small app", "Save and load tasks with localStorage", "Keep the code organised in separate files"],
-        skills: ["DOM manipulation", "Arrays and objects", "Browser storage", "Code organisation"],
-        tools: ["HTML", "CSS", "Vanilla JavaScript", "localStorage"],
-        deliverables: ["Working task manager", "Responsive design", "Saved tasks", "Short README"],
-        duration: "6-8 hours",
-        result: "A responsive app that adds, completes, filters and saves tasks."
-    }
-];
+let challenges = [];            // challenge data from the API
+let loadState = "loading";      // "loading", "ready" or "error"
 
 const trackNames = { analytics: "Data Analytics", webDevelopment: "Web Development" };
 const applyUrl = "https://forms.gle/8EbdSy5ttGfLZfjv5";
+const API_BASE = window.TECHBRIDGE_API || "";
 
 // ---------- State and page elements ----------
 
@@ -118,6 +24,7 @@ const grid = document.getElementById("ch-grid");
 const emptyMessage = document.getElementById("ch-empty");
 const countText = document.getElementById("ch-count");
 const resetButton = document.getElementById("ch-reset");
+const stateBox = document.getElementById("ch-state");
 const dialog = document.getElementById("ch-dialog");
 const dialogContent = document.getElementById("ch-d-in");
 
@@ -182,6 +89,11 @@ function createCard(challenge) {
     body.appendChild(tags);
     body.appendChild(makeElement("p", "ch-desc", challenge.description));
 
+    const outcome = makeElement("p", "ch-out");
+    outcome.appendChild(makeElement("strong", "", "Expected outcome: "));
+    outcome.append(challenge.result);
+    body.appendChild(outcome);
+
     const footer = makeElement("div", "ch-foot");
     const day = makeElement("span", "ch-day");
     day.appendChild(makeIcon("cal", 18));
@@ -199,8 +111,47 @@ function createCard(challenge) {
     return card;
 }
 
+// Shows the loading or error message instead of the cards
+function renderState() {
+    stateBox.replaceChildren();
+    stateBox.className = "ch-state";
+
+    if (loadState === "loading") {
+        stateBox.append(makeElement("span", "ch-spin"), makeElement("p", "", "Loading challenges..."));
+        stateBox.hidden = false;
+    } else if (loadState === "error") {
+        stateBox.classList.add("ch-state-err");
+        stateBox.append(makeElement("p", "ch-state-t", "Unable to load challenges. Please try again."),
+            makeElement("p", "", "The backend is not responding. Start the server (npm start inside the backend folder), then try again."));
+        const retry = makeElement("button", "btn btn-primary", "Retry");
+        retry.type = "button";
+        retry.addEventListener("click", loadChallenges);
+        stateBox.appendChild(retry);
+        stateBox.hidden = false;
+    } else {
+        stateBox.hidden = true;
+    }
+}
+
+// GET /api/challenges : load all challenges and show them
+async function loadChallenges() {
+    loadState = "loading";
+    renderChallenges();
+    try {
+        const response = await fetch(API_BASE + "/api/challenges");
+        if (!response.ok) throw new Error("Request failed");
+        challenges = await response.json();
+        loadState = "ready";
+    } catch (error) {
+        challenges = [];
+        loadState = "error";
+    }
+    renderChallenges();
+}
+
 function renderChallenges() {
-    const visible = challenges.filter(matchesFilters);
+    renderState();
+    const visible = loadState === "ready" ? challenges.filter(matchesFilters) : [];
 
     grid.replaceChildren();
     visible.forEach(function (challenge) {
@@ -208,8 +159,8 @@ function renderChallenges() {
     });
 
     // Empty state, result count and button states
-    emptyMessage.hidden = visible.length > 0;
-    countText.textContent = "Showing " + visible.length + " of " + challenges.length + " challenges";
+    emptyMessage.hidden = !(loadState === "ready" && visible.length === 0);
+    countText.textContent = loadState === "ready" ? "Showing " + visible.length + " of " + challenges.length + " challenges" : "";
 
     trackButtons.forEach(function (button) {
         button.setAttribute("aria-pressed", String(button.dataset.track === selectedTrack));
@@ -312,4 +263,11 @@ resetButton.addEventListener("click", function () {
     renderChallenges();
 });
 
-renderChallenges();
+// A search from the dashboard can open this page with ?q=text
+const startText = new URLSearchParams(window.location.search).get("q");
+if (startText) {
+    searchText = startText;
+    searchInput.value = startText;
+}
+
+loadChallenges();

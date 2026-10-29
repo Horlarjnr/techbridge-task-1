@@ -1,0 +1,9 @@
+# Optional: lets Render create the service for you (New > Blueprint).
+# You can also create the Web Service by hand. The README explains both ways.
+services:
+  - type: web
+    name: techbridge-platform
+    runtime: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start

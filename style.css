@@ -4276,3 +4276,286 @@ html[data-theme="light"] .db {
         grid-template-columns: 1fr;
     }
 }
+
+/* =========================================
+   22. INTERN MANAGEMENT PLATFORM (TASK 8)
+========================================= */
+
+/* ---------- Navbar with seven links ---------- */
+
+.links {
+    gap: 1.5rem;
+}
+
+@media (min-width: 901px) and (max-width: 1240px) {
+    .links {
+        gap: 1rem;
+    }
+
+    .links a:not(.btn) {
+        font-size: .8rem;
+    }
+}
+
+/* ---------- Homepage: platform hero and feature cards ---------- */
+
+.plat-list {
+    display: grid;
+    gap: .55rem;
+    margin: 0 0 1.75rem;
+    list-style: none;
+}
+
+.plat-list li {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+.plat-list li::before {
+    content: "\2713";
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, .2);
+    color: var(--green);
+    font-size: .8rem;
+}
+
+.plat h2 {
+    margin-bottom: .75rem;
+}
+
+.plat-lead {
+    max-width: 38rem;
+    margin-bottom: 2rem;
+}
+
+.plat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.plat-card {
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, rgba(13, 22, 45, .9), rgba(6, 12, 28, .9));
+    transition: transform .25s, border-color .25s, box-shadow .25s;
+}
+
+.plat-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--green-dark);
+    box-shadow: 0 0 26px rgba(57, 255, 20, .14);
+}
+
+.plat-card h3 {
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.plat-card p {
+    flex: 1;
+    font-size: .9rem;
+    line-height: 1.6;
+}
+
+.plat-card span {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    color: var(--green);
+    font-size: .88rem;
+    font-weight: 700;
+}
+
+@media (max-width: 1023px) {
+    .plat-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .plat-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Dashboard: Start Task button and search across tasks and challenges ---------- */
+
+.db-btn-start {
+    border-color: var(--d-blue);
+    color: var(--d-blue);
+}
+
+.db-gs {
+    position: relative;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: .6rem;
+    max-width: 28rem;
+    margin-left: 1rem;
+    padding: 0 1rem;
+    border: 1px solid var(--d-border);
+    border-radius: var(--radius-sm);
+    background: var(--d-panel);
+    color: var(--d-muted);
+}
+
+.db-gs input {
+    width: 100%;
+    padding: .6rem 0;
+    border: 0;
+    background: transparent;
+    color: var(--d-text);
+    font: inherit;
+    font-size: .9rem;
+}
+
+.db-gs-panel {
+    position: absolute;
+    top: 115%;
+    right: 0;
+    left: 0;
+    z-index: 60;
+    max-height: 22rem;
+    padding: .75rem;
+    overflow-y: auto;
+    border: 1px solid var(--d-border);
+    border-radius: var(--radius-md);
+    background: var(--d-panel);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, .4);
+}
+
+.db-gs-panel[hidden] {
+    display: none;
+}
+
+.db-gs-h {
+    margin: .4rem .25rem;
+    color: var(--d-text);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.db-gs-i {
+    display: grid;
+    gap: .15rem;
+    width: 100%;
+    padding: .6rem .7rem;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--d-muted);
+    font: inherit;
+    font-size: .8rem;
+    text-align: left;
+    cursor: pointer;
+}
+
+.db-gs-i:hover,
+.db-gs-i:focus-visible {
+    background: var(--d-soft);
+}
+
+.db-gs-i strong {
+    color: var(--d-text);
+    font-size: .88rem;
+}
+
+.db-gs-msg {
+    padding: .75rem;
+    color: var(--d-muted);
+    font-size: .88rem;
+    text-align: center;
+}
+
+@media (max-width: 720px) {
+    .db-top {
+        flex-wrap: wrap;
+    }
+
+    .db-gs {
+        order: 5;
+        flex: 1 1 100%;
+        max-width: none;
+        margin-left: 0;
+    }
+}
+
+/* ---------- Challenge Hub: loading and error messages, expected outcome ---------- */
+
+.ch-state {
+    display: grid;
+    justify-items: center;
+    gap: .6rem;
+    padding: 2.5rem 1rem;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.ch-state[hidden] {
+    display: none;
+}
+
+.ch-state-err {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, .07);
+}
+
+.ch-state-t {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.ch-spin {
+    width: 1.8rem;
+    height: 1.8rem;
+    border: 3px solid var(--border);
+    border-top-color: var(--green);
+    border-radius: 50%;
+    animation: ch-turn .8s linear infinite;
+}
+
+@keyframes ch-turn {
+    to { transform: rotate(360deg); }
+}
+
+.ch-out {
+    margin-bottom: 1.1rem;
+    font-size: .85rem;
+    line-height: 1.55;
+}
+
+.ch-out strong {
+    color: var(--n);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ch-spin {
+        animation: none;
+    }
+
+    .plat-card {
+        transition: none;
+    }
+}
+
+.hero-copy .lead {
+    margin-bottom: 1.25rem;
+}

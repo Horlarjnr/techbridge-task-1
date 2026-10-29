@@ -18,6 +18,12 @@
 <header class="db-top">
     <button type="button" class="db-burger" id="db-burger" aria-controls="db-side" aria-expanded="false" aria-label="Open dashboard menu"><svg width="22" height="22" aria-hidden="true"><use href="#t-list"></use></svg></button>
     <a class="db-logo" href="index.html"><img src="assets/images/techbridge-logo.png" alt="TechBridge home" width="170" height="34"></a>
+    <div class="db-gs" id="db-gs-wrap" role="search">
+        <label class="db-vh" for="db-gs">Search tasks and challenges</label>
+        <svg width="18" height="18" aria-hidden="true"><use href="#t-search"></use></svg>
+        <input type="search" id="db-gs" placeholder="Search tasks and challenges..." autocomplete="off" aria-controls="db-gs-panel">
+        <div class="db-gs-panel" id="db-gs-panel" hidden></div>
+    </div>
     <div class="db-top-r">
         <button type="button" class="db-theme" id="db-theme" aria-label="Switch to light theme" aria-pressed="false"><span class="db-th-moon"><svg width="18" height="18" aria-hidden="true"><use href="#t-moon"></use></svg></span><span class="db-th-sun"><svg width="18" height="18" aria-hidden="true"><use href="#t-sun"></use></svg></span></button>
         <div class="db-bellwrap">
@@ -173,7 +179,7 @@
     <div class="db-d-in">
         <button type="button" class="ch-close" id="db-docs-x" aria-label="Close"><svg width="20" height="20" aria-hidden="true"><use href="#i-close"></use></svg></button>
         <h3 id="db-docs-title">API Documentation</h3>
-        <p>The dashboard talks to a Node.js + Express backend at <code>http://localhost:3000</code>. Task data is stored in <code>backend/data/tasks.json</code>.</p>
+        <p>The platform talks to a Node.js + Express backend (<code>http://localhost:3000</code> when you run it locally). Data is stored in <code>backend/data/</code>.</p>
         <div class="db-table-wrap"><table class="db-table">
             <thead><tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr></thead>
             <tbody>
@@ -182,6 +188,8 @@
                 <tr><td><code>PUT</code></td><td><code>/api/tasks/:id</code></td><td>Update a task's status</td></tr>
                 <tr><td><code>POST</code></td><td><code>/api/tasks</code></td><td>Add a new task (optional)</td></tr>
                 <tr><td><code>DELETE</code></td><td><code>/api/tasks/:id</code></td><td>Delete a task (optional)</td></tr>
+                <tr><td><code>GET</code></td><td><code>/api/challenges</code></td><td>Get all challenges</td></tr>
+                <tr><td><code>GET</code></td><td><code>/api/search?q=text</code></td><td>Search tasks and challenges</td></tr>
                 <tr><td><code>GET</code></td><td><code>/api/health</code></td><td>Check that the backend is running</td></tr>
             </tbody>
         </table></div>
@@ -190,6 +198,7 @@
     </div>
 </dialog>
 <div class="db-toast" id="db-toast" role="status" aria-live="polite" hidden></div>
+<script src="config.js" defer></script>
 <script src="dashboard.js" defer></script>
     </body>
 </html>

@@ -107,7 +107,7 @@
   },
   {
     "id": 7,
-    "title": "Build a Task Management API",
+    "title": "Build a TechBridge Task Management API",
     "description": "Create a REST API with Node.js and Express to manage tasks.",
     "status": "completed",
     "day": 22,
@@ -126,19 +126,21 @@
   },
   {
     "id": 8,
-    "title": "Final Project",
-    "description": "Complete the final project and submit your work.",
+    "title": "Build the TechBridge Intern Management Platform",
+    "description": "Combine the Challenge Hub, Intern Dashboard and Task API into one complete platform, then deploy it.",
     "status": "progress",
     "day": 26,
     "icon": "rocket",
     "skills": [
-      "Planning",
-      "Combining components",
-      "Testing"
+      "Integration",
+      "Testing",
+      "Deployment"
     ],
     "deliverables": [
-      "Finished project",
-      "Submission"
+      "Complete platform",
+      "README",
+      "GitHub repository",
+      "LinkedIn post"
     ]
   }
 ]
